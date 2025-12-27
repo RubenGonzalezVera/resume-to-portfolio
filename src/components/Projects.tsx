@@ -41,6 +41,42 @@ const projects = [
     ],
   },
   {
+    title: "Custom Mechanical Keyboard",
+    description: "Ergonomic split wireless mechanical keyboard with custom VHDL-programmed FPGA for key matrix scanning and debouncing.",
+    tags: ["VHDL", "FPGA", "DE10 Lite", "C/C++", "BLE"],
+    hours: 200,
+    type: "Personal",
+    image: "https://images.unsplash.com/photo-1595225476474-87563907a212?w=600&h=400&fit=crop",
+    highlights: [
+      "Custom firmware for macro programming and RGB lighting",
+      "3D printed enclosure with hot-swappable switches",
+    ],
+  },
+  {
+    title: "ESP32 Weather Station",
+    description: "IoT weather monitoring system with ESP32, featuring real-time data visualization and cloud integration.",
+    tags: ["ESP32", "IoT", "Python", "REST API", "Sensors"],
+    hours: 80,
+    type: "Personal",
+    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop",
+    highlights: [
+      "Temperature, humidity, pressure, and air quality sensors",
+      "Web dashboard with historical data and alerts",
+    ],
+  },
+  {
+    title: "FPGA Audio Synthesizer",
+    description: "Digital audio synthesizer implemented on DE10 Lite FPGA with multiple waveform generation and real-time effects processing.",
+    tags: ["VHDL", "Verilog", "FPGA", "DSP", "Audio"],
+    hours: 120,
+    type: "Academic",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
+    highlights: [
+      "Sine, square, sawtooth, and custom waveform generation",
+      "Low-latency audio output with I2S protocol",
+    ],
+  },
+  {
     title: "Gator Autonomous Racing",
     description: "Leading a cross-functional team of 15 engineers developing autonomous racing vehicles with real-time control systems and sensor fusion.",
     tags: ["Robotics", "LIDAR", "ROS", "STM32", "Leadership"],

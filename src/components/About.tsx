@@ -4,10 +4,10 @@ import { useRef } from "react";
 import { Cpu, Zap, Radio, Code } from "lucide-react";
 
 const skills = {
-  languages: ["C/C++", "Python", "VHDL", "Verilog", "Assembly"],
-  protocols: ["I2C", "SPI", "UART", "CAN", "Bluetooth", "USB", "PCIe"],
-  software: ["Altium", "KiCAD", "LTSpice", "Quartus", "MATLAB", "Git", "Linux", "ROS"],
-  hardware: ["STM32", "ESP32", "Arduino", "Raspberry Pi", "Nordic", "DE10 Lite"],
+  languages: ["C/C++", "Python", "VHDL", "Verilog", "Assembly", "JavaScript", "React Native"],
+  protocols: ["I2C", "SPI", "UART", "CAN", "Bluetooth", "USB", "PCIe", "RS-232"],
+  software: ["Altium", "KiCAD", "LTSpice", "Quartus", "MATLAB", "Git", "Linux", "ROS", "Figma", "Oscilloscope"],
+  hardware: ["STM32", "ESP32", "Arduino", "Raspberry Pi", "Nordic nRF", "DE10 Lite", "Teensy", "MSP430"],
 };
 
 const highlights = [
