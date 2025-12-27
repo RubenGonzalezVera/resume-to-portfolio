@@ -59,6 +59,27 @@ const experiences = [
       "Reduced software iteration time from 6 hours to 2 hours",
     ],
   },
+  {
+    title: "Peer Mentor",
+    company: "Career Connections Center",
+    location: "Gainesville, FL",
+    period: "Aug 2023 - May 2024",
+    highlights: [
+      "Mentored and advised 200+ university students about career development",
+      "Contributed articles to university publications with 400+ views",
+      "Developed outreach strategy resulting in 50+ new student interactions",
+    ],
+  },
+  {
+    title: "Peer Mentor",
+    company: "Institute of Black Culture",
+    location: "Gainesville, FL",
+    period: "Aug 2022 - May 2023",
+    highlights: [
+      "Mentored 15+ underrepresented STEM students on academic strategies",
+      "Designed and executed cultural programming events for 100+ attendees",
+    ],
+  },
 ];
 
 const Experience = () => {
