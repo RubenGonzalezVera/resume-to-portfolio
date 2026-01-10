@@ -4,10 +4,10 @@ import { useRef } from "react";
 import { Cpu, Zap, Radio, Code } from "lucide-react";
 
 const skills = {
-  languages: ["C/C++", "Python", "VHDL", "Verilog", "Assembly", "JavaScript", "React Native"],
-  protocols: ["I2C", "SPI", "UART", "CAN", "Bluetooth", "USB", "PCIe", "RS-232"],
-  software: ["Altium", "KiCAD", "LTSpice", "Quartus", "MATLAB", "Git", "Linux", "ROS", "Figma", "Oscilloscope"],
-  hardware: ["STM32", "ESP32", "Arduino", "Raspberry Pi", "Nordic nRF", "DE10 Lite", "Teensy", "MSP430"],
+  languages: ["C/C++", "Python", "VHDL", "Assembly"],
+  protocols: ["I2C", "SPI", "USART", "UART", "CAN", "Bluetooth", "USB", "PCIe"],
+  software: ["Altium", "KiCAD", "LTSpice", "Quartus", "MATLAB", "Git", "Linux", "iOS", "ROS", "Bash"],
+  hardware: ["Raspberry Pi", "STM32", "ESP32", "Arduino", "Nordic"],
 };
 
 const highlights = [
@@ -15,21 +15,29 @@ const highlights = [
     icon: Cpu,
     title: "Embedded Systems",
     description: "Custom firmware development for microcontrollers and FPGA-based systems",
+    stat: "5+",
+    statLabel: "MCU Platforms",
   },
   {
     icon: Zap,
     title: "Power Electronics",
     description: "High-voltage control systems, inverters, and power conversion circuits",
+    stat: "10kV",
+    statLabel: "Max Voltage",
   },
   {
     icon: Radio,
     title: "Communication Protocols",
     description: "Implementation and debugging of I2C, SPI, CAN, and wireless protocols",
+    stat: "8",
+    statLabel: "Protocols",
   },
   {
     icon: Code,
     title: "PCB Design",
     description: "Multi-layer board design with EMI shielding and signal integrity focus",
+    stat: "4",
+    statLabel: "Layer Max",
   },
 ];
 
@@ -38,23 +46,26 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-24 bg-background relative" ref={ref}>
+    <section id="about" className="py-24 bg-background relative grid-overlay" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <span className="text-primary font-display text-sm tracking-widest uppercase mb-4 block">
-            About Me
-          </span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-            Engineering the Future
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-px flex-1 bg-border max-w-[100px]" />
+            <span className="font-mono text-sm uppercase tracking-widest text-primary">
+              {'// SECTION_01'}
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-gradient mb-4">
+            SYSTEM SPECIFICATIONS
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
-            Pursuing a Bachelor of Science in Electrical Engineering at the University of Florida 
-            with a minor in Mathematics. Passionate about building systems that push the boundaries 
+          <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed font-body">
+            Pursuing a Bachelor of Science in Electrical Engineering at the University of Florida
+            with a minor in Mathematics. Passionate about building systems that push the boundaries
             of what's possible in robotics and embedded technology.
           </p>
         </motion.div>
@@ -67,17 +78,25 @@ const About = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group p-6 rounded-xl bg-gradient-card border border-border hover:border-primary/50 transition-all duration-300"
+              className="group"
             >
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:glow transition-all duration-300">
-                <item.icon className="w-6 h-6 text-primary" />
+              <div className="p-6 rounded-lg bg-gradient-card border border-border hover:border-primary/50 transition-all duration-300 corner-brackets hover-lift h-full">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="p-2 rounded bg-primary/10 text-primary group-hover:glow transition-all duration-300">
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <div className="text-right">
+                    <span className="font-mono text-2xl text-primary font-bold block">{item.stat}</span>
+                    <span className="font-mono text-sm text-muted-foreground uppercase">{item.statLabel}</span>
+                  </div>
+                </div>
+                <h3 className="text-lg font-display font-semibold text-foreground mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed font-body">
+                  {item.description}
+                </p>
               </div>
-              <h3 className="text-lg font-display font-semibold text-foreground mb-2">
-                {item.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {item.description}
-              </p>
             </motion.div>
           ))}
         </div>
@@ -87,34 +106,99 @@ const About = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-5xl mx-auto"
         >
-          <h3 className="text-2xl font-display font-bold text-foreground text-center mb-10">
-            Technical Stack
-          </h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            {Object.entries(skills).map(([category, items], categoryIndex) => (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, x: categoryIndex % 2 === 0 ? -30 : 30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.5 + categoryIndex * 0.1 }}
-              >
-                <h4 className="text-primary font-display text-sm tracking-widest uppercase mb-4">
-                  {category}
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {items.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1.5 text-sm rounded-full bg-secondary text-secondary-foreground border border-border hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+          <div className="flex items-center gap-4 mb-10">
+            <h3 className="font-mono text-sm uppercase tracking-widest text-muted-foreground">
+              Technical Stack
+            </h3>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Languages */}
+            <div>
+              <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Languages
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {skills.languages.map((lang, index) => (
+                  <motion.span
+                    key={lang}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
+                    className="px-3 py-1.5 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
+                  >
+                    {lang}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+
+            {/* Protocols */}
+            <div>
+              <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Protocols
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {skills.protocols.map((protocol, index) => (
+                  <motion.span
+                    key={protocol}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
+                    className="px-3 py-1.5 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
+                  >
+                    {protocol}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+
+            {/* Software */}
+            <div>
+              <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Software
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {skills.software.map((sw, index) => (
+                  <motion.span
+                    key={sw}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.6 + index * 0.05 }}
+                    className="px-3 py-1.5 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
+                  >
+                    {sw}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+
+            {/* Hardware */}
+            <div>
+              <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Hardware Platforms
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {skills.hardware.map((hw, index) => (
+                  <motion.span
+                    key={hw}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.7 + index * 0.05 }}
+                    className="px-3 py-1.5 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
+                  >
+                    {hw}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>

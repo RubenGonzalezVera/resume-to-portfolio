@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { ExternalLink, Github, Clock, Users } from "lucide-react";
+import { Clock, Github, ExternalLink } from "lucide-react";
 
 const projects = [
   {
@@ -10,106 +10,34 @@ const projects = [
     tags: ["C", "Bare-Metal", "I2C", "SPI", "UART", "CAN", "USB"],
     hours: 150,
     type: "Open-Source",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop",
+    status: "Active",
     highlights: [
-      "Built test circuits with breadboard prototyping",
-      "Generated open-source PCB designs with KiCAD/Altium",
+      "Fabricated test circuits using breadboard prototyping to validate protocol implementations",
+      "Generated downloadable open-source PCB designs with KiCAD/Altium for educational use",
     ],
   },
   {
     title: "Homebrew Digital Multimeter",
-    description: "Compact multimeter using I2C/SPI protocols for ADC and OLED display, achieving 3% accuracy with wireless Bluetooth probe unit.",
+    description: "Compact multimeter using I2C/SPI protocols for ADC and OLED display, achieving 3% error rate with wireless Bluetooth probe unit.",
     tags: ["Altium", "I2C", "SPI", "BLE", "EMI Shielding"],
     hours: 100,
     type: "Open-Source",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop",
+    status: "Complete",
     highlights: [
-      "4-layer PCB design with EMI shielding",
-      "Integrated voltage, current, resistance, capacitance measurements",
+      "Designed 4-layer PCB with EMI shielding in Altium",
+      "Integrated voltage, current, resistance, capacitance and inductance measurements",
     ],
   },
   {
     title: "Custom Solar Power Inverter",
-    description: "Custom 60V/30A Input Synchronous Boost-Converter PCB design outputting 120V DC with 90% efficiency.",
+    description: "Custom 60V/30A Input Synchronous Boost-Converter PCB design outputting 120V DC steady state with 90% efficiency.",
     tags: ["Power Electronics", "Altium", "CAN", "Agile"],
     hours: 300,
     type: "Team",
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&h=400&fit=crop",
+    status: "Complete",
     highlights: [
-      "Perturb and Observe MPPT algorithm implementation",
-      "Reduced cost from $1,500 to $300 per unit over 5 iterations",
-    ],
-  },
-  {
-    title: "Custom Mechanical Keyboard",
-    description: "Ergonomic split wireless mechanical keyboard with custom VHDL-programmed FPGA for key matrix scanning and debouncing.",
-    tags: ["VHDL", "FPGA", "DE10 Lite", "C/C++", "BLE"],
-    hours: 200,
-    type: "Personal",
-    image: "https://images.unsplash.com/photo-1595225476474-87563907a212?w=600&h=400&fit=crop",
-    highlights: [
-      "Custom firmware for macro programming and RGB lighting",
-      "3D printed enclosure with hot-swappable switches",
-    ],
-  },
-  {
-    title: "ESP32 Weather Station",
-    description: "IoT weather monitoring system with ESP32, featuring real-time data visualization and cloud integration.",
-    tags: ["ESP32", "IoT", "Python", "REST API", "Sensors"],
-    hours: 80,
-    type: "Personal",
-    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop",
-    highlights: [
-      "Temperature, humidity, pressure, and air quality sensors",
-      "Web dashboard with historical data and alerts",
-    ],
-  },
-  {
-    title: "FPGA Audio Synthesizer",
-    description: "Digital audio synthesizer implemented on DE10 Lite FPGA with multiple waveform generation and real-time effects processing.",
-    tags: ["VHDL", "Verilog", "FPGA", "DSP", "Audio"],
-    hours: 120,
-    type: "Academic",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
-    highlights: [
-      "Sine, square, sawtooth, and custom waveform generation",
-      "Low-latency audio output with I2S protocol",
-    ],
-  },
-  {
-    title: "Gator Autonomous Racing",
-    description: "Leading a cross-functional team of 15 engineers developing autonomous racing vehicles with real-time control systems and sensor fusion.",
-    tags: ["Robotics", "LIDAR", "ROS", "STM32", "Leadership"],
-    hours: null,
-    type: "Team Lead",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
-    highlights: [
-      "System integration between electrical, mechanical, and AI subsystems",
-      "Built custom robotics stack at 40% of standard cost",
-    ],
-  },
-  {
-    title: "Solar Gators - 1st Place FSGP 2023",
-    description: "Worked with a team of 30 engineers to create a solar-powered car for national endurance competitions.",
-    tags: ["MPPT", "Solar", "Agile", "Fundraising"],
-    hours: null,
-    type: "Team Lead",
-    image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&h=400&fit=crop",
-    highlights: [
-      "MPPT Lead and Business Coordinator",
-      "Secured $5,000+ through fundraising and cost reduction",
-    ],
-  },
-  {
-    title: "Hive - Mobile Notification System",
-    description: "Designed mobile notification system that reduced daily average screen time by 20% for beta testers.",
-    tags: ["React Native", "JavaScript", "Figma", "NumPy"],
-    hours: null,
-    type: "Team",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop",
-    highlights: [
-      "Amassed 100,000+ views and 600 sign-ups",
-      "Built iteratively using Figma and React Native",
+      "Encoded Perturb and Observe algorithm with 4 students using Agile techniques for 90% power efficiency",
+      "Iterated over 5 prototypes to reduce unit cost from $1,500 to $300, with CAN protocol implementation",
     ],
   },
 ];
@@ -119,97 +47,132 @@ const Projects = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="projects" className="py-24 bg-background relative" ref={ref}>
+    <section id="projects" className="py-24 bg-background relative grid-overlay" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <span className="text-primary font-display text-sm tracking-widest uppercase mb-4 block">
-            Portfolio
-          </span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">
-            Featured Projects
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-px flex-1 bg-border max-w-[100px]" />
+            <span className="font-mono text-sm uppercase tracking-widest text-primary">
+              {'// SECTION_03'}
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-gradient mb-4">
+            TECHNICAL PROJECTS
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            A collection of hardware and software projects showcasing embedded systems, 
-            power electronics, and autonomous vehicle development.
+          <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed font-body">
+            Hardware and software projects showcasing embedded systems, power electronics,
+            and protocol implementation.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
               className="group"
             >
-              <div className="rounded-xl bg-gradient-card border border-border hover:border-primary/50 overflow-hidden transition-all duration-500 h-full flex flex-col">
-                {/* Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-primary/20 text-primary border border-primary/30">
+              <div className="rounded-lg bg-gradient-card border border-border hover:border-primary/50 overflow-hidden transition-all duration-500 h-full flex flex-col corner-brackets hover-lift">
+                {/* Header with blueprint-style decoration */}
+                <div className="p-6 border-b border-border">
+                  {/* Top row with type and status */}
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-sm text-primary uppercase tracking-wider px-2 py-1 rounded bg-primary/10 border border-primary/30">
                       {project.type}
                     </span>
-                    {project.hours && (
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Clock className="w-3 h-3" />
-                        ~{project.hours}h
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${project.status === 'Active' ? 'bg-green-500 animate-pulse' : 'bg-primary/50'}`} />
+                      <span className="font-mono text-sm text-muted-foreground">{project.status}</span>
+                    </div>
                   </div>
+
+                  {/* Title */}
+                  <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+
+                  {/* Hours metric */}
+                  {project.hours && (
+                    <div className="flex items-center gap-2 mt-3">
+                      <Clock className="w-4 h-4 text-primary" />
+                      <div className="flex items-baseline gap-1">
+                        <span className="font-mono text-lg text-primary font-bold">~{project.hours}</span>
+                        <span className="font-mono text-sm text-muted-foreground">hours</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1 font-body">
                     {project.description}
                   </p>
 
                   {/* Highlights */}
-                  <ul className="space-y-1 mb-4">
-                    {project.highlights.map((highlight, hIndex) => (
-                      <li key={hIndex} className="text-xs text-muted-foreground flex items-start gap-2">
-                        <span className="w-1 h-1 rounded-full bg-primary mt-1.5 flex-shrink-0" />
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="mb-6">
+                    <span className="font-mono text-sm uppercase tracking-widest text-muted-foreground mb-3 block">
+                      Key Achievements
+                    </span>
+                    <ul className="space-y-2">
+                      {project.highlights.map((highlight, hIndex) => (
+                        <li key={hIndex} className="text-xs text-muted-foreground flex items-start gap-2 font-body">
+                          <span className="w-1 h-1 rounded-full bg-primary mt-1.5 flex-shrink-0" />
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.slice(0, 4).map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 text-xs rounded bg-secondary text-secondary-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                    {project.tags.length > 4 && (
-                      <span className="px-2 py-1 text-xs rounded bg-secondary text-muted-foreground">
-                        +{project.tags.length - 4}
-                      </span>
-                    )}
+                  <div className="pt-4 border-t border-border">
+                    <span className="font-mono text-sm uppercase tracking-widest text-muted-foreground mb-3 block">
+                      Technologies
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-1 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 transition-colors"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* GitHub CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-12 text-center"
+        >
+          <a
+            href="https://github.com/RubenGonzalezVera"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-6 py-3 rounded border border-border bg-card hover:bg-primary hover:border-primary transition-all duration-300 group"
+          >
+            <Github className="w-5 h-5 text-muted-foreground group-hover:text-primary-foreground transition-colors" />
+            <span className="font-mono text-sm text-foreground group-hover:text-primary-foreground transition-colors">
+              View All Projects on GitHub
+            </span>
+            <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary-foreground transition-colors" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

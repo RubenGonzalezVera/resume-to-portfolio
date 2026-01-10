@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Syne", "sans-serif"],
-        body: ["Inter", "sans-serif"],
+        display: ["IBM Plex Mono", "monospace"],
+        body: ["IBM Plex Sans", "sans-serif"],
+        mono: ["IBM Plex Mono", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -85,12 +86,32 @@ export default {
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(187 100% 50% / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(187 100% 50% / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(25 95% 53% / 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsl(25 95% 53% / 0.5)" },
         },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        "trace-draw": {
+          "0%": { strokeDashoffset: "1000" },
+          "100%": { strokeDashoffset: "0" },
+        },
+        "cursor-blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
+        "data-flicker": {
+          "0%, 100%": { opacity: "1" },
+          "92%": { opacity: "1" },
+          "93%": { opacity: "0.8" },
+          "94%": { opacity: "1" },
+          "96%": { opacity: "0.9" },
+          "97%": { opacity: "1" },
+        },
+        "scan": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" },
         },
       },
       animation: {
@@ -100,6 +121,10 @@ export default {
         "slide-in-left": "slide-in-left 0.6s ease-out forwards",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "float": "float 3s ease-in-out infinite",
+        "trace-draw": "trace-draw 2s ease-out forwards",
+        "cursor-blink": "cursor-blink 1s step-end infinite",
+        "data-flicker": "data-flicker 4s ease-in-out infinite",
+        "scan": "scan 8s linear infinite",
       },
     },
   },
