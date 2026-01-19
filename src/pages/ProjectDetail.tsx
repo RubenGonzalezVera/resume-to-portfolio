@@ -406,18 +406,36 @@ const ProjectDetail = () => {
                 {project.visualPlaceholders.map((placeholder, index) => (
                   <div
                     key={index}
-                    className="p-8 rounded-lg bg-gradient-card border border-border border-dashed hover:border-primary/50 transition-colors"
+                    className={`rounded-lg bg-gradient-card border ${
+                      placeholder.imagePath ? 'border-border' : 'border-border border-dashed'
+                    } hover:border-primary/50 transition-colors overflow-hidden`}
                   >
-                    <div className="flex flex-col items-center text-center space-y-3">
-                      <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
-                        <ImageIcon className="w-8 h-8 text-primary" />
+                    {placeholder.imagePath ? (
+                      <div className="flex flex-col">
+                        <div className="relative aspect-video bg-card">
+                          <img
+                            src={placeholder.imagePath}
+                            alt={placeholder.title}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                        <div className="p-6 space-y-2">
+                          <h3 className="font-display font-bold text-foreground">{placeholder.title}</h3>
+                          <p className="text-sm text-muted-foreground font-body">{placeholder.description}</p>
+                        </div>
                       </div>
-                      <h3 className="font-display font-bold text-foreground">{placeholder.title}</h3>
-                      <p className="text-sm text-muted-foreground font-body">{placeholder.description}</p>
-                      <span className="font-mono text-xs uppercase tracking-wider text-primary/70">
-                        Coming Soon
-                      </span>
-                    </div>
+                    ) : (
+                      <div className="p-8 flex flex-col items-center text-center space-y-3">
+                        <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                          <ImageIcon className="w-8 h-8 text-primary" />
+                        </div>
+                        <h3 className="font-display font-bold text-foreground">{placeholder.title}</h3>
+                        <p className="text-sm text-muted-foreground font-body">{placeholder.description}</p>
+                        <span className="font-mono text-xs uppercase tracking-wider text-primary/70">
+                          Coming Soon
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

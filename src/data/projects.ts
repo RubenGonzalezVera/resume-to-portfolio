@@ -36,6 +36,7 @@ export interface Project {
   visualPlaceholders: {
     title: string;
     description: string;
+    imagePath?: string;
   }[];
 }
 
@@ -552,36 +553,43 @@ export const projects: Project[] = [
         title: "Power Stage Schematic",
         description:
           "Buck converter circuit diagram showing L=100µH inductor, C=47µF capacitor, switching MOSFETs, and 35V→12V voltage conversion topology with component labels and current paths.",
+        imagePath: "/projects/buck-converter/figure_page04.png",
       },
       {
         title: "Control-to-Output Transfer Function",
         description:
           "Bode magnitude and phase plots for Gvd(s) showing DC gain of 30.88 dB, LC double pole at 2.3 kHz with -40 dB/decade roll-off, and ESR zero at 339 kHz providing phase boost.",
+        imagePath: "/projects/buck-converter/figure_page08.png",
       },
       {
         title: "Compensator Design Calculations",
         description:
           "Hand-written calculations and LaTeX equations showing pole-zero placement strategy, frequency selection rationale, and mid-band gain derivation for Type III compensator achieving target crossover and phase margin.",
+        imagePath: "/projects/buck-converter/figure_page09.png",
       },
       {
         title: "Compensated Loop Gain Bode Plot",
         description:
           "MATLAB-generated Bode plot of T(s)=Gc(s)·Fm·Gvd(s)·H showing 20 kHz crossover frequency, 45° phase margin (marked), 16.6 dB gain margin, and comparison with uncompensated loop gain demonstrating compensation effectiveness.",
+        imagePath: "/projects/buck-converter/figure_page14.png",
       },
       {
         title: "Op-Amp Compensator Circuit",
         description:
           "Type III compensator implementation using TL072 op-amp with labeled component values: R=10kΩ, R1=560Ω, C1=6.86nF, C2=22pF, C3=22pF. Circuit shows input from error amplifier and output to PWM modulator.",
+        imagePath: "/projects/buck-converter/figure_page15.png",
       },
       {
         title: "Complete Feedback Control System",
         description:
           "Full circuit schematic integrating buck converter power stage, voltage sensing divider (R3/R4), error amplifier comparing Vsense to Vref=5V, PID compensator, sawtooth PWM modulator, and gate drive circuitry—complete closed-loop system.",
+        imagePath: "/projects/buck-converter/figure_page16.png",
       },
       {
         title: "Closed-Loop Simulation Results",
         description:
           "LTSpice transient analysis waveforms showing output voltage regulation at 12V with minimal ripple, response to input voltage step (35V→48V), and load current step (4A→3A) demonstrating stable transient recovery. Note: Simulation-based design; PCB not yet fabricated.",
+        imagePath: "/projects/buck-converter/submission_page16_img02.jpeg",
       },
     ],
   },
