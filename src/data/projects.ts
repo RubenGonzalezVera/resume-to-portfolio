@@ -305,8 +305,8 @@ export const projects: Project[] = [
     ],
     overview: {
       fullDescription: [
-        "A high-power DC-DC boost converter prototype designed for solar energy systems, capable of stepping up 60V/30A solar panel input to regulated 120V DC output. This team-based project demonstrates advanced power electronics design, MPPT algorithm implementation, and iterative hardware development.",
-        "Over the course of five prototype iterations, the team successfully reduced the unit cost by 80% (from $1,500 to $300) while maintaining 90% power conversion efficiency through careful component selection, topology optimization, and PCB layout improvements.",
+        "A high-power DC-DC boost converter prototype designed for solar energy systems, capable of stepping up 60V/30A solar panel input to regulated 120V DC output. Building on DC-DC converter design principles from academic coursework (including buck converter control system design), this team project scaled up to real-world solar applications, demonstrating advanced power electronics design, MPPT algorithm implementation, and iterative hardware development.",
+        "Over the course of five prototype iterations, the team successfully reduced the unit cost by 80% (from $1,500 to $300) while maintaining 90% power conversion efficiency through careful component selection, topology optimization, and PCB layout improvements. The systematic design methodology from previous power electronics coursework—including small-signal modeling and feedback control theory—proved invaluable in developing the boost converter's control architecture.",
         "The converter features a microcontroller-based control system with CAN bus communication for monitoring and integration into larger solar power systems, along with comprehensive safety features including over-current, over-voltage, and thermal protection.",
       ],
       goals: [
@@ -427,6 +427,161 @@ export const projects: Project[] = [
         title: "Team Collaboration Workflow",
         description:
           "Jira sprint board screenshots, Git contribution graphs, and team workflow diagrams showing Agile development process.",
+      },
+    ],
+  },
+  {
+    slug: "buck-converter",
+    title: "Feedback-Controlled Buck Converter",
+    description:
+      "75W buck converter with PID feedback control achieving 12V±1% output regulation, featuring small-signal modeling, frequency-domain compensation design, and closed-loop verification.",
+    tags: ["Power Electronics", "Control Systems", "Analog Design", "MATLAB", "LTSpice", "PID Control", "Op-Amp Circuits"],
+    hours: 100,
+    type: "Open-Source",
+    status: "Complete",
+    highlights: [
+      "Designed PID compensator achieving 45° phase margin and 16.6 dB gain margin for stable voltage regulation",
+      "Performed complete small-signal analysis with Bode plots and transfer function derivation in MATLAB",
+    ],
+    overview: {
+      fullDescription: [
+        "A comprehensive 75W buck converter design project from Power Electronics I (EEL 4242C) that demonstrates systematic DC-DC converter design methodology. This academic project provided foundational knowledge in power electronics, small-signal modeling, and feedback control theory that was later applied to the Custom Solar Power Inverter boost converter project.",
+        "The design process followed an 8-step methodology: steady-state parameter calculation, small-signal transfer function derivation (Gvd, Gvg, Zo), Bode plot analysis, PID compensator design with pole-zero placement, loop gain verification, op-amp circuit implementation, complete feedback system integration, and closed-loop simulation verification. The converter successfully regulates 35V input to 12V±1% output using a Type III compensator topology.",
+        "The systematic design methodology learned here—from steady-state analysis through small-signal modeling to compensator implementation—formed the basis for the high-power boost converter development in the solar inverter team project. This progression demonstrates the application of control theory principles from academic coursework to real-world engineering challenges.",
+      ],
+      goals: [
+        "Design stable voltage regulation circuit meeting ±1% output tolerance specification",
+        "Achieve maximum crossover frequency (20 kHz) while maintaining ≥30° phase margin",
+        "Implement PID compensator using practical op-amp circuit with calculated component values",
+        "Verify closed-loop response to input voltage and load current transients through simulation",
+        "Demonstrate frequency-domain and time-domain analysis proficiency using MATLAB and LTSpice",
+      ],
+      timeline: "~100 hours including coursework, design iterations, MATLAB analysis, circuit implementation, and comprehensive documentation",
+    },
+    technicalDetails: {
+      subsystems: [
+        {
+          title: "Buck Converter Power Stage",
+          description:
+            "Synchronous buck topology with 35V input, 12V output at 75W (4A load). Operating at 150 kHz switching frequency with L=100µH inductor and C=47µF output capacitor. ESR of 10mΩ provides damping. Designed for continuous conduction mode (CCM) with calculated Lcrit=6.77µH, well below the 100µH inductance used. Duty cycle D=0.343 (34.3%) derived from steady-state voltage conversion ratio.",
+        },
+        {
+          title: "Small-Signal Modeling & Transfer Functions",
+          description:
+            "Derived control-to-output transfer function Gvd(s) with DC gain G0=35V and resonant frequency f0=2321 Hz. Line-to-output transfer function Gvg(s) has DC gain of 0.343 (-9.29 dB). Quality factor Q=2.06 indicates underdamped LC response. ESR zero at fz=339 kHz provides high-frequency phase boost. Complete small-signal model includes output impedance Zo(s) characterization for load regulation analysis.",
+        },
+        {
+          title: "PID Compensator Design & Pole-Zero Placement",
+          description:
+            "Type III compensator with strategically placed poles and zeros: low-frequency zero at fL=1.67 kHz (below fc/10) for DC gain, compensator zero at f0=2.3 kHz to cancel LC double pole, first pole at fp1=40 kHz (2×fc) for roll-off, and second pole at fp2=75 kHz (fs/2) for noise attenuation. Mid-band gain Gcm=10 (20 dB) calculated to achieve unity loop gain at 20 kHz crossover frequency. Final design meets 45° phase margin and 16.6 dB gain margin specifications.",
+        },
+        {
+          title: "Voltage Sensing Network",
+          description:
+            "Resistive voltage divider with transfer function H(s)=5/12 to scale 12V output down to 5V reference voltage level. Designed with R3=14kΩ and R4=10kΩ providing appropriate impedance for op-amp input while minimizing power dissipation. The sensing network feeds into the error amplifier which compares sensed voltage against 5V reference (Vref) to generate error signal for compensator.",
+        },
+        {
+          title: "PWM Modulator & Gate Drive",
+          description:
+            "Sawtooth PWM modulator with Vm=1V amplitude operating at fs=150 kHz switching frequency. Modulator gain Fm=1/Vm=1 V⁻¹. Compares compensator output against sawtooth ramp to generate duty cycle command for MOSFET gate drivers. The switching frequency was selected to balance efficiency (minimize switching losses) with component size (enable smaller magnetics) while staying below 1/10 of the ESR zero frequency to avoid right-half-plane zero issues.",
+        },
+        {
+          title: "Simulation & Verification",
+          description:
+            "Complete closed-loop system simulated in LTSpice to verify transient response and regulation performance. Simulation confirmed 12V output with <1% steady-state error and stable response to input voltage steps (35V nominal) and load current steps (3A to 4A). MATLAB Bode plot analysis verified compensated loop gain crossover at 20 kHz with 45° phase margin, validating analytical design against simulation results. Note: Physical PCB has not been fabricated—this project demonstrates design and analysis methodology.",
+        },
+      ],
+      tools: [
+        "MATLAB (Transfer function analysis, Bode plots, pole-zero placement)",
+        "LTSpice (Circuit simulation, transient analysis, closed-loop verification)",
+        "Op-Amp circuits (TL072 or equivalent for error amplifier and compensator)",
+        "Oscilloscope (For planned waveform measurements)",
+        "Hand calculations (Steady-state analysis, component selection)",
+      ],
+      approach:
+        "Followed systematic 8-step design methodology starting with steady-state analysis to determine duty cycle and verify CCM operation. Derived complete small-signal model including Gvd, Gvg, and Zo transfer functions with quality factor and pole/zero frequencies. Generated Bode plots in MATLAB to visualize uncompensated loop gain and identify compensation requirements. Designed Type III PID compensator using pole-zero placement technique to achieve maximum crossover frequency while meeting phase margin specification. Implemented compensator using op-amp circuit with calculated component values (R=10kΩ, R1=560Ω, C1=6.86nF, C2=22pF, C3=22pF). Integrated voltage sensing, error amplifier, compensator, and modulator into complete feedback control system. Verified design through closed-loop LTSpice simulation showing regulation performance under input and load transients.",
+    },
+    challenges: [
+      {
+        challenge:
+          "Achieving sufficient phase margin with LC output filter creating double pole at 2.3 kHz, resulting in -180° phase shift that threatened loop stability",
+        solution:
+          "Placed compensator zero exactly at LC resonant frequency (fz=2.3 kHz) to cancel the double pole effect, recovering +90° of phase. Added two high-frequency poles at 40 kHz and 75 kHz to provide necessary roll-off while maintaining 45° phase margin at 20 kHz crossover—exceeding the 30° minimum specification by 50%.",
+      },
+      {
+        challenge:
+          "Selecting optimal crossover frequency to maximize bandwidth without compromising stability, while staying below switching frequency to avoid aliasing and noise coupling",
+        solution:
+          "Targeted fc=20 kHz, which is 1/7.5 of the 150 kHz switching frequency, providing adequate separation from switching harmonics. Used systematic pole-zero placement with low-frequency zero at fc/12 for DC gain boost, compensator zero at resonance for pole cancellation, and high-frequency poles at 2×fc and fs/2 for controlled roll-off. MATLAB analysis confirmed 45° phase margin and 16.6 dB gain margin.",
+      },
+      {
+        challenge:
+          "Translating s-domain compensator transfer function Gc(s) into practical op-amp circuit with discrete resistor and capacitor values available in standard E24 series",
+        solution:
+          "Used Type III compensator topology (inverting op-amp with RC networks) and derived component values from pole/zero frequencies: R=10kΩ (chosen first), R1=560Ω for mid-band gain, C1=6.86nF for low-frequency zero, C2=22pF and C3=22pF for high-frequency poles. Verified op-amp circuit transfer function matches theoretical Gc(s) through hand calculations and MATLAB simulation before integrating into complete feedback system.",
+      },
+    ],
+    outcomes: {
+      results: [
+        "Successfully designed buck converter meeting 12V ± 1% output voltage regulation specification",
+        "Achieved 45° phase margin (50% above minimum 30° requirement) ensuring robust stability",
+        "Obtained 16.6 dB gain margin providing excellent disturbance rejection capability",
+        "Maximized crossover frequency at 20 kHz (1/7.5 of switching frequency) for fast transient response",
+        "Completed comprehensive MATLAB transfer function analysis with Bode plots validating design",
+        "Verified closed-loop performance in LTSpice simulation showing stable regulation under transients",
+        "Generated complete design documentation with schematics, calculations, and analysis results",
+      ],
+      metrics: [
+        "Output voltage regulation: 12V ± 1% (120 mV tolerance)",
+        "Phase margin: 45° (specification: ≥30°)",
+        "Gain margin: 16.6 dB (robust stability)",
+        "Crossover frequency: 20 kHz (maximum achievable)",
+        "Switching frequency: 150 kHz",
+        "Quality factor: Q = 2.06 (LC resonance)",
+        "Power rating: 75W (35V input, 12V @ 4A output)",
+        "Duty cycle: 34.3% (D = 0.343)",
+      ],
+      futureWork:
+        "The control theory and power electronics principles from this academic project were directly applied to design the 60V/30A boost converter in the Custom Solar Power Inverter, scaling up to real-world solar applications. Future enhancements could include PCB fabrication and hardware validation, digital compensator implementation using microcontroller, adaptive compensation for variable load conditions, and integration with current-mode control for improved performance.",
+      links: {
+        github: "https://github.com/RubenGonzalezVera",
+      },
+    },
+    visualPlaceholders: [
+      {
+        title: "Power Stage Schematic",
+        description:
+          "Buck converter circuit diagram showing L=100µH inductor, C=47µF capacitor, switching MOSFETs, and 35V→12V voltage conversion topology with component labels and current paths.",
+      },
+      {
+        title: "Control-to-Output Transfer Function",
+        description:
+          "Bode magnitude and phase plots for Gvd(s) showing DC gain of 30.88 dB, LC double pole at 2.3 kHz with -40 dB/decade roll-off, and ESR zero at 339 kHz providing phase boost.",
+      },
+      {
+        title: "Compensator Design Calculations",
+        description:
+          "Hand-written calculations and LaTeX equations showing pole-zero placement strategy, frequency selection rationale, and mid-band gain derivation for Type III compensator achieving target crossover and phase margin.",
+      },
+      {
+        title: "Compensated Loop Gain Bode Plot",
+        description:
+          "MATLAB-generated Bode plot of T(s)=Gc(s)·Fm·Gvd(s)·H showing 20 kHz crossover frequency, 45° phase margin (marked), 16.6 dB gain margin, and comparison with uncompensated loop gain demonstrating compensation effectiveness.",
+      },
+      {
+        title: "Op-Amp Compensator Circuit",
+        description:
+          "Type III compensator implementation using TL072 op-amp with labeled component values: R=10kΩ, R1=560Ω, C1=6.86nF, C2=22pF, C3=22pF. Circuit shows input from error amplifier and output to PWM modulator.",
+      },
+      {
+        title: "Complete Feedback Control System",
+        description:
+          "Full circuit schematic integrating buck converter power stage, voltage sensing divider (R3/R4), error amplifier comparing Vsense to Vref=5V, PID compensator, sawtooth PWM modulator, and gate drive circuitry—complete closed-loop system.",
+      },
+      {
+        title: "Closed-Loop Simulation Results",
+        description:
+          "LTSpice transient analysis waveforms showing output voltage regulation at 12V with minimal ripple, response to input voltage step (35V→48V), and load current step (4A→3A) demonstrating stable transient recovery. Note: Simulation-based design; PCB not yet fabricated.",
       },
     ],
   },
