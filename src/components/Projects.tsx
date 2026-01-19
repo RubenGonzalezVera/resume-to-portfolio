@@ -1,46 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Clock, Github, ExternalLink } from "lucide-react";
-
-const projects = [
-  {
-    title: "Communication Protocols Rebuilt",
-    description: "Reconstructed 5 communication protocols (I2C, SPI, UART, CAN, USB) from first principles using bare-metal C programming with oscilloscope verification.",
-    tags: ["C", "Bare-Metal", "I2C", "SPI", "UART", "CAN", "USB"],
-    hours: 150,
-    type: "Open-Source",
-    status: "Active",
-    highlights: [
-      "Fabricated test circuits using breadboard prototyping to validate protocol implementations",
-      "Generated downloadable open-source PCB designs with KiCAD/Altium for educational use",
-    ],
-  },
-  {
-    title: "Homebrew Digital Multimeter",
-    description: "Compact multimeter using I2C/SPI protocols for ADC and OLED display, achieving 3% error rate with wireless Bluetooth probe unit.",
-    tags: ["Altium", "I2C", "SPI", "BLE", "EMI Shielding"],
-    hours: 100,
-    type: "Open-Source",
-    status: "Complete",
-    highlights: [
-      "Designed 4-layer PCB with EMI shielding in Altium",
-      "Integrated voltage, current, resistance, capacitance and inductance measurements",
-    ],
-  },
-  {
-    title: "Custom Solar Power Inverter",
-    description: "Custom 60V/30A Input Synchronous Boost-Converter PCB design outputting 120V DC steady state with 90% efficiency.",
-    tags: ["Power Electronics", "Altium", "CAN", "Agile"],
-    hours: 300,
-    type: "Team",
-    status: "Complete",
-    highlights: [
-      "Encoded Perturb and Observe algorithm with 4 students using Agile techniques for 90% power efficiency",
-      "Iterated over 5 prototypes to reduce unit cost from $1,500 to $300, with CAN protocol implementation",
-    ],
-  },
-];
+import { Clock, Github, ExternalLink, ArrowRight, Image as ImageIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { projects } from "@/data/projects";
 
 const Projects = () => {
   const ref = useRef(null);
@@ -79,7 +42,8 @@ const Projects = () => {
               transition={{ duration: 0.6, delay: index * 0.15 }}
               className="group"
             >
-              <div className="rounded-lg bg-gradient-card border border-border hover:border-primary/50 overflow-hidden transition-all duration-500 h-full flex flex-col corner-brackets hover-lift">
+              <Link to={`/projects/${project.slug}`} className="block h-full">
+                <div className="rounded-lg bg-gradient-card border border-border hover:border-primary/50 overflow-hidden transition-all duration-500 h-full flex flex-col corner-brackets hover-lift cursor-pointer">
                 {/* Header with blueprint-style decoration */}
                 <div className="p-6 border-b border-border">
                   {/* Top row with type and status */}
@@ -147,8 +111,27 @@ const Projects = () => {
                       ))}
                     </div>
                   </div>
+
+                  {/* Image Placeholder */}
+                  <div className="mt-6 pt-4 border-t border-border">
+                    <div className="aspect-video rounded-lg bg-gradient-card border-2 border-dashed border-border group-hover:border-primary/30 transition-colors flex flex-col items-center justify-center gap-2 p-4">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                        <ImageIcon className="w-5 h-5 text-primary" />
+                      </div>
+                      <p className="font-mono text-xs text-muted-foreground/60">Project Image</p>
+                    </div>
+                  </div>
+
+                  {/* View Details Button */}
+                  <div className="mt-6 pt-4 border-t border-border">
+                    <div className="flex items-center justify-between text-primary group-hover:text-primary/80 transition-colors">
+                      <span className="font-mono text-sm uppercase tracking-wider">View Details</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
                 </div>
               </div>
+              </Link>
             </motion.div>
           ))}
         </div>

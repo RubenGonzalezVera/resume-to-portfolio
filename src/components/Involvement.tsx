@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Users, Calendar, Award, Trophy } from "lucide-react";
+import { Users, Calendar, Award, Trophy, Image as ImageIcon } from "lucide-react";
 
 const involvements = [
   {
@@ -84,60 +84,78 @@ const Involvement = () => {
               className="group"
             >
               <div className="p-6 rounded-lg bg-gradient-card border border-border hover:border-primary/50 transition-all duration-300 h-full corner-brackets hover-lift">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded bg-primary/10 text-primary">
-                      <Users className="w-4 h-4" />
+                <div className="flex flex-col md:flex-row gap-6">
+                  {/* Content Section */}
+                  <div className={`flex-1 ${index % 2 === 0 ? "md:order-1" : "md:order-2"}`}>
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 rounded bg-primary/10 text-primary">
+                          <Users className="w-4 h-4" />
+                        </div>
+                        <h3 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
+                          {item.title}
+                        </h3>
+                      </div>
+                      {item.award && (
+                        <span className="flex items-center gap-1.5 px-2 py-1 text-xs font-mono rounded bg-accent/20 text-accent border border-accent/30">
+                          <Trophy className="w-3 h-3" />
+                          {item.award}
+                        </span>
+                      )}
                     </div>
-                    <h3 className="text-xl font-display font-bold text-foreground group-hover:text-primary transition-colors">
-                      {item.title}
-                    </h3>
+
+                    {/* Role */}
+                    <p className="font-mono text-sm text-primary mb-3">{item.role}</p>
+
+                    {/* Meta info */}
+                    <div className="flex flex-wrap items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span className="font-mono text-sm">{item.period}</span>
+                      </div>
+                      {item.teamSize && (
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <Users className="w-3.5 h-3.5" />
+                          <span className="font-mono text-sm">{item.teamSize} members</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Stat if available */}
+                    {item.stat && (
+                      <div className="mb-4 p-3 rounded bg-primary/5 border border-primary/20">
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-mono text-2xl text-primary font-bold">{item.stat}</span>
+                          <span className="font-mono text-sm text-muted-foreground uppercase">{item.statLabel}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Highlights */}
+                    <ul className="space-y-2">
+                      {item.highlights.map((highlight, hIndex) => (
+                        <li key={hIndex} className="text-muted-foreground text-sm leading-relaxed flex items-start gap-2 font-body">
+                          <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  {item.award && (
-                    <span className="flex items-center gap-1.5 px-2 py-1 text-xs font-mono rounded bg-accent/20 text-accent border border-accent/30">
-                      <Trophy className="w-3 h-3" />
-                      {item.award}
-                    </span>
-                  )}
+
+                  {/* Image Placeholder */}
+                  <div className={`w-full md:w-2/5 flex-shrink-0 mt-6 md:mt-0 pt-6 md:pt-0 border-t md:border-t-0 border-border ${index % 2 === 0 ? "md:order-2" : "md:order-1"}`}>
+                    <div className="aspect-video rounded-lg bg-gradient-card border-2 border-dashed border-border hover:border-primary/30 transition-colors flex flex-col items-center justify-center gap-3 p-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                        <ImageIcon className="w-6 h-6 text-primary" />
+                      </div>
+                      <div className="text-center">
+                        <p className="font-mono text-sm text-muted-foreground mb-1">Team Photos</p>
+                        <p className="font-mono text-xs text-muted-foreground/60">Coming Soon</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Role */}
-                <p className="font-mono text-sm text-primary mb-3">{item.role}</p>
-
-                {/* Meta info */}
-                <div className="flex flex-wrap items-center gap-4 mb-4">
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span className="font-mono text-sm">{item.period}</span>
-                  </div>
-                  {item.teamSize && (
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Users className="w-3.5 h-3.5" />
-                      <span className="font-mono text-sm">{item.teamSize} members</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Stat if available */}
-                {item.stat && (
-                  <div className="mb-4 p-3 rounded bg-primary/5 border border-primary/20">
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-mono text-2xl text-primary font-bold">{item.stat}</span>
-                      <span className="font-mono text-sm text-muted-foreground uppercase">{item.statLabel}</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Highlights */}
-                <ul className="space-y-2">
-                  {item.highlights.map((highlight, hIndex) => (
-                    <li key={hIndex} className="text-muted-foreground text-sm leading-relaxed flex items-start gap-2 font-body">
-                      <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </motion.div>
           ))}

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Cpu, Zap, Radio, Code } from "lucide-react";
+import { Cpu, Zap, Radio, Code, Image as ImageIcon } from "lucide-react";
 
 const skills = {
   languages: ["C/C++", "Python", "VHDL", "Assembly"],
@@ -199,6 +199,46 @@ const About = () => {
                 ))}
               </div>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Image Placeholder Gallery */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="max-w-5xl mx-auto mt-16"
+        >
+          <div className="flex items-center gap-4 mb-10">
+            <h3 className="font-mono text-sm uppercase tracking-widest text-muted-foreground">
+              Photo Gallery
+            </h3>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              "Lab Setup & Equipment",
+              "PCB Design Work",
+              "Testing & Debugging"
+            ].map((label, index) => (
+              <motion.div
+                key={label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
+              >
+                <div className="aspect-square rounded-lg bg-gradient-card border-2 border-dashed border-border hover:border-primary/30 transition-colors flex flex-col items-center justify-center gap-3 p-6">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                    <ImageIcon className="w-6 h-6 text-primary" />
+                  </div>
+                  <div className="text-center">
+                    <p className="font-mono text-sm text-muted-foreground mb-1">{label}</p>
+                    <p className="font-mono text-xs text-muted-foreground/60">Coming Soon</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </div>

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Building2, Calendar, MapPin } from "lucide-react";
+import { Building2, Calendar, MapPin, Image as ImageIcon } from "lucide-react";
 
 const experiences = [
   {
@@ -110,41 +110,59 @@ const Experience = () => {
               {/* Content */}
               <div className={`md:w-1/2 ${index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12"} pl-16 md:pl-0`}>
                 <div className="p-6 rounded-lg bg-gradient-card border border-border hover:border-primary/50 transition-all duration-300 group corner-brackets hover-lift">
-                  {/* Date badge */}
-                  <div className={`flex items-center gap-2 mb-3 ${index % 2 === 0 ? "md:justify-end" : ""}`}>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-primary/10 border border-primary/30">
-                      <Calendar className="w-3 h-3 text-primary" />
-                      <span className="font-mono text-sm text-primary">{exp.period}</span>
+                  <div className="flex flex-col md:flex-row gap-6">
+                    {/* Content Section */}
+                    <div className={`flex-1 ${index % 2 === 0 ? "md:order-1" : "md:order-2"}`}>
+                      {/* Date badge */}
+                      <div className={`flex items-center gap-2 mb-3 ${index % 2 === 0 ? "md:justify-end" : ""}`}>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-primary/10 border border-primary/30">
+                          <Calendar className="w-3 h-3 text-primary" />
+                          <span className="font-mono text-sm text-primary">{exp.period}</span>
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                        {exp.title}
+                      </h3>
+
+                      {/* Company & Location */}
+                      <div className={`flex flex-wrap items-center gap-3 mb-4 ${index % 2 === 0 ? "md:justify-end" : ""}`}>
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <Building2 className="w-3.5 h-3.5" />
+                          <span className="font-mono text-sm">{exp.company}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-muted-foreground">
+                          <MapPin className="w-3.5 h-3.5" />
+                          <span className="font-mono text-sm">{exp.location}</span>
+                        </div>
+                      </div>
+
+                      {/* Highlights */}
+                      <ul className={`space-y-2 ${index % 2 === 0 ? "md:text-right" : ""}`}>
+                        {exp.highlights.map((highlight, hIndex) => (
+                          <li key={hIndex} className="text-muted-foreground text-sm leading-relaxed font-body flex items-start gap-2">
+                            {index % 2 !== 0 && <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />}
+                            <span>{highlight}</span>
+                            {index % 2 === 0 && <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0 md:order-first" />}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Image Placeholder */}
+                    <div className={`w-full md:w-2/5 flex-shrink-0 mt-6 md:mt-0 pt-6 md:pt-0 border-t md:border-t-0 border-border ${index % 2 === 0 ? "md:order-2" : "md:order-1"}`}>
+                      <div className="aspect-video rounded-lg bg-gradient-card border-2 border-dashed border-border hover:border-primary/30 transition-colors flex flex-col items-center justify-center gap-3 p-4">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                          <ImageIcon className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="text-center">
+                          <p className="font-mono text-sm text-muted-foreground mb-1">Project Photos</p>
+                          <p className="font-mono text-xs text-muted-foreground/60">Coming Soon</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-display font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {exp.title}
-                  </h3>
-
-                  {/* Company & Location */}
-                  <div className={`flex flex-wrap items-center gap-3 mb-4 ${index % 2 === 0 ? "md:justify-end" : ""}`}>
-                    <div className="flex items-center gap-1.5 text-muted-foreground">
-                      <Building2 className="w-3.5 h-3.5" />
-                      <span className="font-mono text-sm">{exp.company}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-muted-foreground">
-                      <MapPin className="w-3.5 h-3.5" />
-                      <span className="font-mono text-sm">{exp.location}</span>
-                    </div>
-                  </div>
-
-                  {/* Highlights */}
-                  <ul className={`space-y-2 ${index % 2 === 0 ? "md:text-right" : ""}`}>
-                    {exp.highlights.map((highlight, hIndex) => (
-                      <li key={hIndex} className="text-muted-foreground text-sm leading-relaxed font-body flex items-start gap-2">
-                        {index % 2 !== 0 && <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0" />}
-                        <span>{highlight}</span>
-                        {index % 2 === 0 && <span className="w-1 h-1 rounded-full bg-primary mt-2 flex-shrink-0 md:order-first" />}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </div>
 
