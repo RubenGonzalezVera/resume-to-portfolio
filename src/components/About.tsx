@@ -4,10 +4,16 @@ import { useRef } from "react";
 import { Cpu, Zap, Radio, Code, Image as ImageIcon } from "lucide-react";
 
 const skills = {
-  languages: ["C/C++", "Python", "VHDL", "Assembly"],
+  languages: [
+    { name: "C/C++", level: "Proficient", exp: "+3 years" },
+    { name: "Python", level: "Proficient", exp: "+3 years" },
+    { name: "VHDL", level: "Intermediate", exp: "2-3 years" },
+    { name: "Assembly", level: "Beginner", exp: "1 year" },
+  ],
   protocols: ["I2C", "SPI", "USART", "UART", "CAN", "Bluetooth", "USB", "PCIe"],
   software: ["Altium", "KiCAD", "LTSpice", "Quartus", "MATLAB", "Git", "Linux", "iOS", "ROS", "Bash"],
   hardware: ["Raspberry Pi", "STM32", "ESP32", "Arduino", "Nordic"],
+  hardwareSystems: ["Autonomous Vehicles", "Embedded Control Systems", "Power Electronics", "LIDAR Integration", "Robotics", "Motor Controllers"],
 };
 
 const highlights = [
@@ -124,15 +130,19 @@ const About = () => {
               </h4>
               <div className="flex flex-wrap gap-2">
                 {skills.languages.map((lang, index) => (
-                  <motion.span
-                    key={lang}
+                  <motion.div
+                    key={lang.name}
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={isInView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
-                    className="px-3 py-1.5 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
+                    className="flex flex-col gap-1 px-3 py-2 rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300 min-w-[120px]"
                   >
-                    {lang}
-                  </motion.span>
+                    <span className="font-mono text-sm font-bold">{lang.name}</span>
+                    <div className="flex flex-col">
+                      <span className="font-mono text-[10px] text-primary/80 uppercase tracking-tighter">{lang.level}</span>
+                      <span className="font-mono text-[10px] text-muted-foreground/70">{lang.exp}</span>
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -179,7 +189,7 @@ const About = () => {
               </div>
             </div>
 
-            {/* Hardware */}
+            {/* Hardware Platforms */}
             <div>
               <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-primary" />
@@ -195,6 +205,27 @@ const About = () => {
                     className="px-3 py-1.5 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
                   >
                     {hw}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+
+            {/* Hardware Systems */}
+            <div>
+              <h4 className="font-mono text-sm uppercase tracking-widest text-primary mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Hardware Systems
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {skills.hardwareSystems.map((sys, index) => (
+                  <motion.span
+                    key={sys}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.8 + index * 0.05 }}
+                    className="px-3 py-1.5 font-mono text-sm rounded border border-border bg-card text-foreground hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
+                  >
+                    {sys}
                   </motion.span>
                 ))}
               </div>

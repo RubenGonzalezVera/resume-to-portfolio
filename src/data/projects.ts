@@ -42,6 +42,150 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "hasel-power-supply",
+    title: "8-Channel High-Voltage Power Supply for HASEL Actuators",
+    description:
+      "Custom 8-channel 10 kV power supply for soft robotic fish locomotion, replacing $4,400+/channel commercial amplifiers with a $650–1,250 standards-compliant solution — a 78–89% cost reduction.",
+    tags: ["Power Electronics", "Altium", "HV Design", "MicroPython", "RP2040", "IPC-2221B", "PID Control", "PCB Design"],
+    hours: 400,
+    type: "Team",
+    status: "Active",
+    highlights: [
+      "Designing 8-channel 10 kV power supply achieving 78–89% cost reduction ($35,200 → $650–1,250) for HASEL actuator control in soft robotic fish",
+      "Identified critical IPC-2221B compliance violations in inherited 2-layer PCB, driving redesign to standards-compliant 6-layer architecture with proper creepage/clearance",
+    ],
+    overview: {
+      fullDescription: [
+        "The Fluid and Adaptive Structures (FASt) Laboratory develops soft robotic systems powered by HASEL (Hydraulically Amplified Self-healing Electrostatic) actuators, which require high-voltage electrical stimulation (8–10 kV) across multiple independent channels for coordinated locomotion. Commercial HV amplifier modules (5VV10P) cost $4,400+ per channel, making an 8-channel system financially prohibitive at $35,200+. This project develops a cost-effective alternative at $650–1,250 total.",
+        "A comprehensive Fall 2025 design review of the inherited 4-channel prototype revealed critical deficiencies: the 2-layer PCB provided only 2–3 mm conductor spacing versus the 8–10 mm minimum required by IPC-2221B for >5 kV circuits, the G8RTOS microcontroller architecture consumed 99.5% CPU overhead for microsecond scheduling unnecessary for millisecond-level HASEL control, and the design failed to comply with NASA EEE-INST-002, IEC 61010-1, IEC 62368-1, and MIL-STD-202 standards.",
+        "Spring 2026 implementation follows a 5-phase development plan: single-channel low-voltage prototype validation, high-voltage prototype with Pico Electronics 28VV10 converter and custom optocoupler, 8-channel integration with coordinated actuation patterns, standards-compliant 6-layer PCB design in Altium, and full system validation with HASEL actuators demonstrating soft robotic fish locomotion.",
+      ],
+      goals: [
+        "Achieve 8–10 kV output across 8 independent channels for coordinated soft robotic fish locomotion",
+        "Reduce system cost by 78–89% compared to commercial HV amplifier modules ($35,200 → $650–1,250)",
+        "Design IPC-2221B compliant 6-layer PCB with proper creepage (8–10 mm) and clearance (10–12 mm)",
+        "Transition from inherited 4-channel prototype to standards-compliant multi-channel design",
+        "Validate performance with HASEL actuators demonstrating undulatory wave propagation at 1–10 Hz",
+      ],
+      timeline: "~400 hours across 2 semesters (Fall 2025 analysis → Spring 2026 implementation)",
+    },
+    technicalDetails: {
+      subsystems: [
+        {
+          title: "High-Voltage DC-DC Conversion (Pico Electronics 28VV10)",
+          description:
+            "Pico Electronics 28VV10 converters with 8–28 VDC input producing up to 10 kV output at 10W max. 3600 VDC galvanic isolation between input and output grounds. Selected at ~$45/unit to replace $4,400+ commercial 5VV10P modules. Output voltage proportional to input (357 V/V ratio), regulated via upstream buck converter maintaining 28V ±3%. Operating frequency 15–25 kHz with 83% typical efficiency and ±3% output accuracy.",
+        },
+        {
+          title: "Custom Optocoupler Assembly for PWM Charge Control",
+          description:
+            "OZ100SG optical diode paired with IR LED for high-voltage switching, enabling PWM-controlled charge distribution from a shared HV rail to individual HASEL channels. Miniaturized design (1.2 g, 240 mm³) based on Mitchell et al. (2022) pocket-sized HVPS architecture. 8 independent charge/discharge pairs enable arbitrary per-channel waveform generation for coordinated soft robotic locomotion.",
+        },
+        {
+          title: "6-Layer PCB Architecture (IPC-2221B Compliant)",
+          description:
+            "Resolves critical creepage violations found in inherited 2-layer design (2–3 mm vs. required 8–10 mm for >5 kV). FR4-TG180 substrate (180°C glass transition) with 2 oz copper on signal/HV layers. Layer stackup: signal/HV traces (L1), LV ground plane (L2), isolated HV power rail (L3), HV ground plane (L4), signal return (L5), solder-side components (L6). Via stitching around HV regions for EMI containment. ENIG surface finish for reliability.",
+        },
+        {
+          title: "Raspberry Pi Pico Control System (Bare-Metal MicroPython)",
+          description:
+            "RP2040/RP2350 microcontroller replacing G8RTOS architecture that consumed 99.5% CPU overhead for microsecond scheduling unnecessary for HASEL millisecond-level control. 100 Hz control loop with 8-channel multiplexed ADC sampling (12-bit, 10:1 voltage divider scaling 10 kV → 1 V). PID voltage regulation per channel with serial command interface. Hardware PWM generation at 1–50 kHz for optocoupler driving.",
+        },
+        {
+          title: "Coordinated Fish Locomotion Control",
+          description:
+            "Phase-sequenced 8-channel actuation generating undulatory wave propagation mimicking natural fish body motion at 1–10 Hz. 45° phase offset between adjacent channels with independent frequency and amplitude control. Real-time parameter adjustment via Python GUI and serial interface. <10 ms timing skew target between channels for synchronized locomotion patterns. Supports multiple gait modes including undulatory body waves and independent fin control.",
+        },
+        {
+          title: "Safety Systems & Encapsulation",
+          description:
+            "Multi-layer protection architecture: hardware interlocks (HV enable key switch), firmware watchdog timer (1 s timeout triggering safe shutdown), and passive protection (snubber capacitors, Zener clipping diodes, 10 MΩ current-limiting series resistors). Sylgard 527 dielectric gel encapsulation with Sylgard 184 PDMS protective coating providing supplementary insulation. Emergency discharge circuit for capacitive energy storage. Overvoltage cutoff at 10.5 kV (5% above nominal). IP54 minimum enclosure rating.",
+        },
+      ],
+      tools: [
+        "Altium Designer (6-layer PCB schematic, layout, and manufacturing documentation)",
+        "Raspberry Pi Pico / RP2040 with MicroPython firmware",
+        "Pico Electronics 28VV10 HV DC-DC converters",
+        "Oscilloscope and logic analyzer for validation",
+        "LTSpice for circuit simulation",
+        "IPC-2221B, NASA EEE-INST-002, IEC 61010-1/62368-1, MIL-STD-202 standards frameworks",
+      ],
+      approach:
+        "Two-semester methodology: Fall 2025 comprehensive design review (inherited system deficiency analysis, standards framework establishment, architecture trade-off studies, component selection, BOM estimation) followed by Spring 2026 5-phase implementation: (1) single-channel LV prototype validation on perfboard with PWM/ADC/serial firmware, (2) HV prototype with Pico 28VV10 converter and custom optocoupler including PID closed-loop regulation, (3) 8-channel integration with coordinated actuation and fish locomotion patterns, (4) standards-compliant 6-layer PCB design in Altium with full DRC validation, (5) full system validation with HASEL actuators and soft robotic fish locomotion demonstration.",
+    },
+    challenges: [
+      {
+        challenge:
+          "Inherited 2-layer PCB violated IPC-2221B creepage requirements — only 2–3 mm spacing between HV conductors vs. 8–10 mm minimum required for >5 kV circuits, making standards compliance physically impossible on the existing architecture",
+        solution:
+          "Designed 6-layer stackup with dedicated HV/LV ground plane isolation, 8–10 mm creepage distances, 10–12 mm air clearance, FR4-TG180 substrate (180°C glass transition), 2 oz copper for HV stress points, and via stitching for EMI containment — achieving compliance with IPC-2221B, NASA EEE-INST-002, and IEC 62368-1",
+      },
+      {
+        challenge:
+          "Inherited G8RTOS microcontroller architecture consumed 99.5% CPU overhead for microsecond-precision scheduling, while HASEL actuators only require millisecond-level control (1–10 Hz actuation frequency) — a fundamental mismatch between system complexity and application requirements",
+        solution:
+          "Transitioned to bare-metal MicroPython on Raspberry Pi Pico (RP2040), providing native hardware PWM generation, 12-bit ADC for voltage feedback, and serial command interface with 100 Hz control loop — eliminating unnecessary RTOS overhead while maintaining >5× timing margin for all real-time tasks",
+      },
+      {
+        challenge:
+          "Commercial HV amplifier modules (5VV10P) cost $4,400+ per channel, making 8-channel scaling financially prohibitive for a research lab ($35,200+ for the complete system)",
+        solution:
+          "Selected Pico Electronics 28VV10 converters (~$45/unit) with custom optocoupler assemblies (OZ100SG + IR LED at ~$18/pair), achieving equivalent 10 kV output capability at $379 target BOM ($750 with 2× safety margin) — a 78–89% cost reduction enabling multi-channel research previously out of budget",
+      },
+    ],
+    outcomes: {
+      results: [
+        "Completed comprehensive design review identifying critical deficiencies in inherited 4-channel prototype",
+        "Established multi-standard compliance framework (IPC-2221B, NASA EEE-INST-002, IEC 61010-1/62368-1, MIL-STD-202)",
+        "Selected and validated component architecture achieving 78–89% cost reduction vs. commercial solution",
+        "Designed 6-layer PCB stackup resolving all creepage/clearance violations for >5 kV operation",
+        "Developed 5-phase Spring 2026 implementation roadmap with defined milestones and success criteria",
+        "Created firmware architecture for 8-channel independent PID-controlled voltage regulation on RP2040",
+      ],
+      metrics: [
+        "78–89% cost reduction ($35,200 → $650–1,250 for 8 channels)",
+        "8 independent channels, 0–10 kV output per channel",
+        "6-layer IPC-2221B compliant PCB with 8–10 mm creepage",
+        "$379 target BOM ($750 with 2× safety margin)",
+        "100 Hz control loop with <10 ms inter-channel timing skew",
+        "<3% output voltage ripple target",
+        "<500 ms rise time, <200 ms settling time targets",
+      ],
+      futureWork:
+        "Production PCB fabrication and automated test fixtures (Summer 2026). Long-term: multi-robot swarm coordination with wireless communication, adaptive locomotion via closed-loop sensory feedback and ML-based gait optimization, scaling to 16–32 channel systems, and technology transfer pathway for commercial soft robotics applications.",
+      links: {
+        github: "https://github.com/RubenGonzalezVera",
+      },
+    },
+    visualPlaceholders: [
+      {
+        title: "System Architecture Block Diagram",
+        description:
+          "8-channel topology from Raspberry Pi Pico controller through optocoupler pairs to Pico 28VV10 HV converters and HASEL actuator stacks, showing PWM control, ADC feedback, and serial interface paths",
+      },
+      {
+        title: "6-Layer PCB Stackup Diagram",
+        description:
+          "Cross-section showing layer assignments: signal/HV traces (L1/L6), LV ground plane (L2), isolated HV power rail (L3), HV ground plane (L4), signal return (L5), with creepage/clearance dimensions annotated",
+      },
+      {
+        title: "Inherited vs. Redesigned PCB Comparison",
+        description:
+          "Side-by-side showing IPC-2221B violations in 2-layer design (2–3 mm spacing) vs. compliant 6-layer design (8–10 mm creepage, 10–12 mm clearance)",
+      },
+      {
+        title: "HV Test Validation Results",
+        description:
+          "Oscilloscope captures of voltage output stability, ripple characterization, step response, and PID-regulated transient recovery across voltage setpoints",
+      },
+      {
+        title: "Soft Robotic Fish Locomotion Demo",
+        description:
+          "Coordinated undulatory wave propagation across 8 HASEL actuator channels demonstrating phase-sequenced control at 1–10 Hz actuation frequencies",
+      },
+    ],
+  },
+  {
     slug: "communication-protocols",
     title: "Communication Protocols Rebuilt",
     description:

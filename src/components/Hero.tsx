@@ -219,6 +219,29 @@ const Hero = () => {
                   </div>
                 </div>
 
+                {/* Coursework */}
+                <div>
+                  <span className="font-mono text-sm uppercase tracking-widest text-muted-foreground block mb-2">
+                    Relevant Coursework
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      "Microprocessor Applications 1 & 2",
+                      "Electronic Circuits 2",
+                      "Power Electronics",
+                      "Autonomous Robots",
+                      "Senior Design"
+                    ].map((course) => (
+                      <span
+                        key={course}
+                        className="font-mono text-[10px] px-1.5 py-0.5 rounded border border-border bg-card/50 text-muted-foreground"
+                      >
+                        {course}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Graduation */}
                 <div>
                   <span className="font-mono text-sm uppercase tracking-widest text-muted-foreground block mb-2">

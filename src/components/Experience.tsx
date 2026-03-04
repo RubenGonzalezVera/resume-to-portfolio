@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Building2, Calendar, MapPin, Image as ImageIcon } from "lucide-react";
+import { Building2, Calendar, MapPin, Image as ImageIcon, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const experiences = [
   {
@@ -9,6 +10,7 @@ const experiences = [
     company: "Fluid and Adaptive Systems Lab",
     location: "Gainesville, FL",
     period: "July 2025 - Present",
+    projectSlug: "hasel-power-supply",
     highlights: [
       "Designed custom high voltage power electronics for autonomous soft robotic fish with 8-channel independent HASEL muscle control",
       "Achieved 1000x signal amplification (0-10V to 0-10kV) for actuator systems",
@@ -148,6 +150,19 @@ const Experience = () => {
                           </li>
                         ))}
                       </ul>
+
+                      {/* Project Link */}
+                      {exp.projectSlug && (
+                        <div className={`mt-4 pt-4 border-t border-border ${index % 2 === 0 ? "md:text-right" : ""}`}>
+                          <Link
+                            to={`/projects/${exp.projectSlug}`}
+                            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                          >
+                            <span className="font-mono text-sm uppercase tracking-wider">View Project</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </Link>
+                        </div>
+                      )}
                     </div>
 
                     {/* Image Placeholder */}
