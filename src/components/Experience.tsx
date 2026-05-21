@@ -45,9 +45,9 @@ const experiences = [
     location: "Sarasota, FL",
     period: "May 2024 - Aug 2024",
     highlights: [
-      "Architected auxiliary circuit board for satellite dish troubleshooting using Altium",
-      "Reduced field failure repair time from 3 hours to 1 hour across dozens of sites",
-      "Delivered 6+ sprint deliverables using Agile, achieving 40% faster deployments",
+      "Designed an auxiliary circuit board for troubleshooting analog components using Altium and PIC32-MX, reducing field repair times by 66%",
+      "Developed Python driver and control scripts for ground station digitizer hardware, integrating Serial, Socket, and SNMP protocols",
+      "Oversaw 6+ concurrent sprint deliverables using Agile, Jira, and Git to streamline hardware-software integration for complex systems",
     ],
   },
   {
@@ -57,6 +57,29 @@ const experiences = [
     period: "Sep 2023 - May 2024",
     highlights: [
       "Engineered PCB for custom lab equipment (BSL-2 Cert), accounting for servo motor control and BLE with a custom testbench",
+    ],
+  },
+  {
+    title: "Electrical Team Member & Fundraising Lead",
+    company: "Solar Gators",
+    location: "Gainesville, FL",
+    period: "Aug 2022 - Aug 2024",
+    highlights: [
+      "Contributed to the 1st place victory at the 2023 Formula Sun Grand Prix, marking the first win for a Florida-based team",
+      "Reconfigured the solar car's complete wiring architecture, including High/Low Voltage rails and CAN-bus communication systems",
+      "Secured 40% wholesale discounts for materials and $1,000+ in grants through strategic cold outreach and networking",
+      "Gained proficiency in embedded systems design using Altium, STM32 microcontrollers, and MPPT algorithms",
+    ],
+  },
+  {
+    title: "Manufacturing Engineering Intern",
+    company: "Walker Products",
+    location: "Palmetto, FL",
+    period: "May 2022 - Aug 2022",
+    highlights: [
+      "Engineered a high-voltage heating system for rubber sleeve integration, optimizing production for high-performance automotive components",
+      "Designed a safe, cost-effective paint removal process using adapted jeweler's electric polishers, increasing production speed by 50%",
+      "Led bilingual (Spanish/English) training workshops for 30+ assembly technicians to implement new technical procedures and safety standards",
     ],
   },
 ];
