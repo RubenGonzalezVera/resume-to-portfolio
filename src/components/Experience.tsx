@@ -6,6 +6,23 @@ import { Link } from "react-router-dom";
 
 const experiences = [
   {
+    title: "Hardware Engineering Contractor",
+    company: "Pre-Seed Robotics Startup",
+    location: "San Francisco, CA",
+    period: "April 2026",
+    highlights: [
+      "Completed a 72-hour paid engineering trial at an unnamed pre-seed hospitality robotics startup, self-directing work against a real one-month shipping deadline",
+      "Reverse engineered a commercial MATIC robot platform through physical teardown — traced wiring harnesses, decoded PCB traceability markings, and cataloged ~80% of critical components with part numbers across power, control, and sensor subsystems",
+      "Delivered a structured component BOM and annotated photo archive to give the team institutional knowledge for downstream harness, wireless control, and production power distribution board designs",
+    ],
+    images: [
+      "/images/experience/matic/photo1.jpg",
+      "/images/experience/matic/photo2.jpg",
+      "/images/experience/matic/photo3.jpg",
+      "/images/experience/matic/photo4.jpg",
+    ],
+  },
+  {
     title: "Engineering Research Assistant",
     company: "Fluid and Adaptive Systems Lab",
     location: "Gainesville, FL",
@@ -188,17 +205,40 @@ const Experience = () => {
                       )}
                     </div>
 
-                    {/* Image Placeholder */}
+                    {/* Images */}
                     <div className={`w-full md:w-2/5 flex-shrink-0 mt-6 md:mt-0 pt-6 md:pt-0 border-t md:border-t-0 border-border ${index % 2 === 0 ? "md:order-2" : "md:order-1"}`}>
-                      <div className="aspect-video rounded-lg bg-gradient-card border-2 border-dashed border-border hover:border-primary/30 transition-colors flex flex-col items-center justify-center gap-3 p-4">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
-                          <ImageIcon className="w-6 h-6 text-primary" />
+                      {exp.images ? (
+                        <div className="grid grid-cols-2 gap-2">
+                          {exp.images.map((src, i) => (
+                            <div key={i} className="aspect-video rounded-lg overflow-hidden bg-gradient-card border border-border">
+                              <img
+                                src={src}
+                                alt={`${exp.company} photo ${i + 1}`}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  const target = e.currentTarget;
+                                  target.style.display = "none";
+                                  target.nextElementSibling?.classList.remove("hidden");
+                                }}
+                              />
+                              <div className="hidden w-full h-full flex flex-col items-center justify-center gap-1 p-2">
+                                <ImageIcon className="w-4 h-4 text-primary/40" />
+                                <p className="font-mono text-xs text-muted-foreground/50">Photo {i + 1}</p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                        <div className="text-center">
-                          <p className="font-mono text-sm text-muted-foreground mb-1">Project Photos</p>
-                          <p className="font-mono text-xs text-muted-foreground/60">Coming Soon</p>
+                      ) : (
+                        <div className="aspect-video rounded-lg bg-gradient-card border-2 border-dashed border-border hover:border-primary/30 transition-colors flex flex-col items-center justify-center gap-3 p-4">
+                          <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+                            <ImageIcon className="w-6 h-6 text-primary" />
+                          </div>
+                          <div className="text-center">
+                            <p className="font-mono text-sm text-muted-foreground mb-1">Project Photos</p>
+                            <p className="font-mono text-xs text-muted-foreground/60">Coming Soon</p>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>

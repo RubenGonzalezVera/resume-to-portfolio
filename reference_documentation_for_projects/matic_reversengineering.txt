@@ -1,0 +1,53 @@
+# MATIC Robot — Reverse Engineering & Component Analysis
+
+**Kovari Industries** — San Francisco, CA
+**Date:** April 2–5, 2026
+
+---
+
+## Overview
+
+During a 72-hour on-site engineering trial at Kovari Industries, a pre-seed hospitality robotics startup, I performed a component-level reverse engineering analysis of a commercial MATIC robot platform. The goal was to build the team's institutional knowledge of the MATIC's electrical architecture and create a reusable reference for designing Kovari's own power and control systems around it.
+
+## Approach
+
+With a real shipping deadline one month out — a robot headed to a hotel in Houston — I had full autonomy to choose what to work on. I prioritized the MATIC teardown because the team lacked a structured component inventory, and every downstream board design (harness cleanup, wireless control, production power distribution) depended on understanding what was already in the robot.
+
+The reverse engineering process involved:
+
+- **Physical teardown and inspection** — Opened assemblies, traced wiring harnesses, and documented connector pinouts, wire gauges, and routing paths across the robot's power, control, and sensor subsystems.
+- **Component identification** — Cross-referenced part markings, package types, and datasheets to catalog individual ICs, passives, connectors, and electromechanical components. Captured approximately 80% of the robot's critical components with part numbers and functional descriptions.
+- **PCB traceability decoding** — Scanned and interpreted QR codes on MATIC PCBs (e.g., serial string `3CSNS43025802212`) to extract board revision identifiers, manufacturing date codes, and production line information.
+- **Photo documentation** — Photographed and annotated key assemblies, board layouts, connector interfaces, and wiring runs to create a visual reference library for the team.
+
+## Deliverables
+
+- **Matic RE.xlsx** — Structured spreadsheet cataloging identified components with designators, part numbers, package types, and functional notes.
+- **ImagesCollected.zip** — Archive of all photographs and written notes taken during the teardown, organized by subsystem.
+
+<!-- Add your photos here — suggested layout:
+
+![MATIC teardown overview](path/to/photo1.jpg)
+*Caption: Full robot with panels removed showing main wiring harness*
+
+![PCB detail](path/to/photo2.jpg)
+*Caption: Main control board with key ICs annotated*
+
+![QR code closeup](path/to/photo3.jpg)
+*Caption: PCB QR code used for traceability decoding*
+
+![Connector pinout](path/to/photo4.jpg)
+*Caption: Harness connector interface between power and control subsystems*
+
+-->
+
+## Technical Skills
+
+- Hardware reverse engineering and component identification
+- PCB analysis and traceability decoding
+- Technical documentation and BOM creation
+- Self-directed prioritization under deployment constraints
+
+## Context
+
+This work was part of a paid work trial designed to evaluate engineering judgment rather than completion. The Kovari team — CEO Aedin Yu and co-founder Daniel George — gave me an open brief and observed how I chose to allocate my time against a real constraint. The MATIC reverse engineering fed directly into the harness board and production board designs I scoped in parallel during the same trial.
