@@ -28,35 +28,46 @@ Contact: rubengonvera@gmail.com · GitHub: https://github.com/RubenGonzalezVera
 ## 1. 8-Channel High-Voltage Power Supply for HASEL Actuators
 *Team · Active · ~400 hrs · Altium 6-layer · IPC-2221B*
 
-Custom 8-channel **10 kV** power supply for soft robotic fish locomotion,
-replacing $4,400+/channel commercial amplifiers with a $650–1,250 standards-
-compliant solution — a **78–89% cost reduction** ($35,200 → $650–1,250).
+Custom 8-channel **8–10 kV** power supply for HASEL-actuated soft robotic fish,
+replacing ~$550/channel commercial amplifier modules ($4,400 for 8 channels)
+with a discrete **Cockcroft-Walton** design at $650–1,250 — a **72–85% cost
+reduction** ($300/channel target). Architecture set by a Fall 2025 Preliminary
+Design Review.
 
 ### PCB Design Contribution
-- **Identified critical IPC-2221B violations** in an inherited 2-layer board:
+- **Identified critical IPC-2221B violations** in the inherited 2-layer board:
   only 2–3 mm conductor spacing vs. the 8–10 mm minimum required for >5 kV.
-  Standards compliance was physically impossible on the existing architecture.
-- **Redesigned to a 6-layer stackup** resolving all creepage/clearance issues:
-  - L1 signal/HV traces · L2 LV ground plane · L3 isolated HV power rail ·
-    L4 HV ground plane · L5 signal return · L6 solder-side components
+  Compliance was physically impossible on the existing architecture.
+- **Specified a 6-layer FR4-TG180 stackup** resolving creepage/clearance:
   - 8–10 mm creepage, 10–12 mm air clearance
-  - **FR4-TG180** substrate (180 °C glass transition), **2 oz copper** on
-    HV/signal layers, **ENIG** finish
-  - Via stitching around HV regions for EMI containment
-  - Dedicated HV/LV ground-plane isolation
-- Compliance framework: **IPC-2221B, NASA EEE-INST-002, IEC 61010-1 / 62368-1,
-  MIL-STD-202**.
+  - **FR4-TG180** (180 °C Tg, 40–50 kV/mm dielectric, CTI ≥600 V), **2 oz
+    copper** on HV layers, **ENIG** finish
+  - Via stitching around HV regions, dedicated HV/LV ground-plane isolation
+- **Two-domain build:** isolated LV control perfboard + enclosed HV module
+  (point-to-point Cockcroft-Walton channels, HC52 20 kV connectors).
+- **HV chain per channel:** 1st-stage Cockcroft-Walton (4 V→8 V) → ZVS boost
+  (8–32 V→300 V, 85–92% eff) → 4-stage Cockcroft-Walton (300 V→8–10 kV);
+  Vo = 2N·Vp.
+- Compliance framework: **IPC-2221B, IPC-2152, IEC 61010-1, NASA EEE-INST-002**.
 
 ### Key Numbers
-- 8 independent channels, 0–10 kV each
-- 6-layer IPC-2221B-compliant PCB, 8–10 mm creepage
-- $379 target BOM ($750 with 2× safety margin)
+- 8 independent channels, 8–10 kV each
+- Cost $4,400 → $650–1,250 (72–85% cut), $300/channel target
+- ZVS boost 8–32 V → 300 V ±10%, 85–92% efficiency
+- Phase 1 ADC calibration: R²≈1.000, residual error <0.5% (1–5 V)
 - <3% output ripple target
 
+### Phase 1 Validation (Spring 2026)
+LV control brought up on **ESP32 + ADS1115** (C++/PlatformIO): calibrated ADC
+voltmeter (5-point least-squares, DIVIDER_RATIO 4.1→4.776, <0.5% error) and a
+closed-loop PWM capacitor-voltage regulator (IRF4905/IRL744N half-bridge,
+1 kHz 8-bit PWM, 50 ms anti-shoot-through dead-time).
+
 ### PCB Visuals
-- 6-layer stackup cross-section with creepage/clearance annotations
-- Inherited 2-layer vs. redesigned 6-layer side-by-side (2–3 mm vs. 8–10 mm)
-- System architecture block diagram (Pico → optocouplers → 28VV10 → HASEL)
+- Cockcroft-Walton multiplier topology + 1st/2nd-stage schematics
+- ZVS boost converter module
+- 6-layer stackup with creepage/clearance annotations
+- Phase 1 ESP32 + ADS1115 ADC calibration curve
 
 ---
 

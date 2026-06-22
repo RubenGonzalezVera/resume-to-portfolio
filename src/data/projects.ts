@@ -45,143 +45,162 @@ export const projects: Project[] = [
     slug: "hasel-power-supply",
     title: "8-Channel High-Voltage Power Supply for HASEL Actuators",
     description:
-      "Custom 8-channel 10 kV power supply for soft robotic fish locomotion, replacing $4,400+/channel commercial amplifiers with a $650–1,250 standards-compliant solution — a 78–89% cost reduction.",
-    tags: ["Power Electronics", "Altium", "HV Design", "MicroPython", "RP2040", "IPC-2221B", "PID Control", "PCB Design"],
+      "Custom 8-channel 8–10 kV power supply for HASEL-actuated soft robotic fish, replacing ~$550/channel commercial amplifier modules ($4,400 for 8 channels) with a $650–1,250 discrete Cockcroft-Walton design — a 72–85% cost reduction ($300/channel target).",
+    tags: ["Power Electronics", "Altium", "HV Design", "IPC-2221B", "Cockcroft-Walton", "ESP32", "Embedded C", "Control Systems", "PCB Design"],
     hours: 400,
     type: "Team",
     status: "Active",
     highlights: [
-      "Designing 8-channel 10 kV power supply achieving 78–89% cost reduction ($35,200 → $650–1,250) for HASEL actuator control in soft robotic fish",
-      "Identified critical IPC-2221B compliance violations in inherited 2-layer PCB, driving redesign to standards-compliant 6-layer architecture with proper creepage/clearance",
+      "Authored the Preliminary Design Review that re-architected an inherited 4-channel HASEL supply into an 8-channel system, cutting projected cost from $4,400 to $650–1,250 (72–85%) by replacing $550/channel amplifier modules with discrete Cockcroft-Walton multipliers",
+      "Identified critical IPC-2221B creepage violations in the inherited 2-layer PCB (2–3 mm vs. the 8–10 mm required for >5 kV) and specified a compliant FR4-TG180 / ENIG 6-layer redesign",
+      "Built and bench-validated the Phase 1 low-voltage prototype on ESP32 + ADS1115, calibrating the ADC voltmeter to <0.5% error (R²≈1.000) and implementing a closed-loop PWM capacitor-voltage regulator",
     ],
     overview: {
       fullDescription: [
-        "The Fluid and Adaptive Structures (FASt) Laboratory develops soft robotic systems powered by HASEL (Hydraulically Amplified Self-healing Electrostatic) actuators, which require high-voltage electrical stimulation (8–10 kV) across multiple independent channels for coordinated locomotion. Commercial HV amplifier modules (5VV10P) cost $4,400+ per channel, making an 8-channel system financially prohibitive at $35,200+. This project develops a cost-effective alternative at $650–1,250 total.",
-        "A comprehensive Fall 2025 design review of the inherited 4-channel prototype revealed critical deficiencies: the 2-layer PCB provided only 2–3 mm conductor spacing versus the 8–10 mm minimum required by IPC-2221B for >5 kV circuits, the G8RTOS microcontroller architecture consumed 99.5% CPU overhead for microsecond scheduling unnecessary for millisecond-level HASEL control, and the design failed to comply with NASA EEE-INST-002, IEC 61010-1, IEC 62368-1, and MIL-STD-202 standards.",
-        "Spring 2026 implementation follows a 5-phase development plan: single-channel low-voltage prototype validation, high-voltage prototype with Pico Electronics 28VV10 converter and custom optocoupler, 8-channel integration with coordinated actuation patterns, standards-compliant 6-layer PCB design in Altium, and full system validation with HASEL actuators demonstrating soft robotic fish locomotion.",
+        "The Fluid and Adaptive Structures (FASt) Laboratory develops soft robotic systems powered by HASEL (Hydraulically Amplified Self-healing Electrostatic) actuators, which require 8–10 kV stimulation across multiple independent channels for coordinated fish locomotion. The inherited approach used ~$550/channel commercial HV amplifier modules — $4,400 for 8 channels — making the system prohibitively expensive to scale. This project develops a discrete alternative at $650–1,250 total ($300/channel target).",
+        "A Fall 2025 Preliminary Design Review evaluated the inherited 4-channel prototype: its architecture was sound (TM4C123GH6PM microcontroller, TLP521 optoisolator-based galvanic isolation, correct signal chain) but three deficiencies blocked scaling to 8 channels — $550/unit amplifier modules, a 2-layer PCB with only 2–3 mm conductor spacing versus the 8–10 mm creepage required by IPC-2221B for >5 kV, and a single monolithic board that could not host 8 channels at the required spacing. The review also flagged G8RTOS consuming 99.5% CPU idle overhead for microsecond scheduling unnecessary for 1–10 Hz HASEL control, and established a compliance framework (IPC-2221B, IPC-2152, IEC 61010-1, NASA EEE-INST-002).",
+        "The recommended design generates high voltage with a hybrid discrete chain per channel: a 1st-stage Cockcroft-Walton multiplier boosts the optocoupled PWM signal (≈4 V → 8 V), a ZVS boost converter module steps that to a 300 V intermediate rail (±10%, 50–100 mA, 85–92% efficient), and a 4-stage 2nd-stage Cockcroft-Walton multiplier reaches 8–10 kV (Vo = 2N·Vp). The 300 V intermediate cuts 2nd-stage capacitor/diode stress ~4×. Domains are physically separated into an isolated low-voltage control module and an enclosed high-voltage module joined by HC52 20 kV connectors, with consistent component derating to a Level-2 high-reliability target.",
+        "Spring 2026 Phase 1 brought up the low-voltage control on an ESP32 (uPesy Wroom) + ADS1115 16-bit ADC in C++/PlatformIO. The ADC voltmeter initially underread by ~16.3%; a 5-point least-squares calibration (1–5 V, R²≈1.000) corrected the divider ratio from 4.1 to 4.776, dropping residual error below 0.5%. A closed-loop capacitor-voltage regulator followed: proportional control with deadband driving a 1 kHz 8-bit PWM half-bridge (IRF4905 P-channel charge / IRL744N N-channel discharge) with enforced 50 ms dead-time to prevent shoot-through.",
       ],
       goals: [
         "Achieve 8–10 kV output across 8 independent channels for coordinated soft robotic fish locomotion",
-        "Reduce system cost by 78–89% compared to commercial HV amplifier modules ($35,200 → $650–1,250)",
-        "Design IPC-2221B compliant 6-layer PCB with proper creepage (8–10 mm) and clearance (10–12 mm)",
-        "Transition from inherited 4-channel prototype to standards-compliant multi-channel design",
-        "Validate performance with HASEL actuators demonstrating undulatory wave propagation at 1–10 Hz",
+        "Cut system cost 72–85% vs. commercial amplifier modules ($4,400 → $650–1,250; $300/channel target)",
+        "Generate HV with a discrete Cockcroft-Walton + ZVS boost chain instead of costly amplifier modules",
+        "Design an IPC-2221B-compliant FR4-TG180 PCB with 8–10 mm creepage / 10–12 mm clearance",
+        "Split the system into an isolated LV control module and enclosed HV module for independent testing",
+        "Validate per channel: <3% ripple, 1–2 ms response, >1 MΩ inter-domain isolation",
       ],
-      timeline: "~400 hours across 2 semesters (Fall 2025 analysis → Spring 2026 implementation)",
+      timeline: "~400 hours across 2+ semesters (Fall 2025 PDR & standards analysis → Spring 2026 Phase 1 prototype + closed-loop regulator validation)",
     },
     technicalDetails: {
       subsystems: [
         {
-          title: "High-Voltage DC-DC Conversion (Pico Electronics 28VV10)",
+          title: "High-Voltage Generation — Hybrid Cockcroft-Walton + ZVS Boost",
           description:
-            "Pico Electronics 28VV10 converters with 8–28 VDC input producing up to 10 kV output at 10W max. 3600 VDC galvanic isolation between input and output grounds. Selected at ~$45/unit to replace $4,400+ commercial 5VV10P modules. Output voltage proportional to input (357 V/V ratio), regulated via upstream buck converter maintaining 28V ±3%. Operating frequency 15–25 kHz with 83% typical efficiency and ±3% output accuracy.",
+            "Each of 8 channels generates high voltage with a discrete three-block chain instead of a commercial amplifier module. A 1st-stage Cockcroft-Walton multiplier boosts the optocoupled PWM signal (≈4 V → 8 V), a ZVS boost converter raises it to a 300 V intermediate rail, and a 4-stage 2nd-stage Cockcroft-Walton multiplier reaches 8–10 kV. Output follows Vo = 2N·Vp, so the first stage uses 2 stages and the second uses 4. The 300 V intermediate reduces 2nd-stage capacitor and diode voltage stress by ~4×, improving ripple and transient response.",
         },
         {
-          title: "Custom Optocoupler Assembly for PWM Charge Control",
+          title: "ZVS Boost Converter Module (300 V Intermediate Rail)",
           description:
-            "OZ100SG optical diode paired with IR LED for high-voltage switching, enabling PWM-controlled charge distribution from a shared HV rail to individual HASEL channels. Miniaturized design (1.2 g, 240 mm³) based on Mitchell et al. (2022) pocket-sized HVPS architecture. 8 independent charge/discharge pairs enable arbitrary per-channel waveform generation for coordinated soft robotic locomotion.",
+            "Zero-voltage-switching boost module steps the 1st-stage 8 V output to 300 V nominal (±10% regulation, 45–390 V capable), at 50–100 mA per channel and 100–200 kHz switching with ≥2 kV input/output isolation. Typical efficiency 85–92% (<5 W thermal per channel) with 5–10 ms settling — compatible with predictive feedforward to hit the 1–2 ms system response target. Boost topology was chosen for unidirectional power flow, fixed switching frequency (PWM-synchronizable), and a compact footprint suitable for perfboard.",
         },
         {
-          title: "6-Layer PCB Architecture (IPC-2221B Compliant)",
+          title: "Galvanic Isolation & Optocoupled PWM Control",
           description:
-            "Resolves critical creepage violations found in inherited 2-layer design (2–3 mm vs. required 8–10 mm for >5 kV). FR4-TG180 substrate (180°C glass transition) with 2 oz copper on signal/HV layers. Layer stackup: signal/HV traces (L1), LV ground plane (L2), isolated HV power rail (L3), HV ground plane (L4), signal return (L5), solder-side components (L6). Via stitching around HV regions for EMI containment. ENIG surface finish for reliability.",
+            "Eight TLP521 optoisolators carry per-channel PWM from the low-voltage controller into the high-voltage domain, preserving signal integrity while enforcing galvanic isolation. Isolation is reinforced through opto-feedback inside the boost module, an isolated power return across the HV connector, and point-to-point wiring with separated return paths to prevent ground loops — targeting >1 MΩ between domains.",
         },
         {
-          title: "Raspberry Pi Pico Control System (Bare-Metal MicroPython)",
+          title: "6-Layer IPC-2221B PCB Study & FR4-TG180 Material Spec",
           description:
-            "RP2040/RP2350 microcontroller replacing G8RTOS architecture that consumed 99.5% CPU overhead for microsecond scheduling unnecessary for HASEL millisecond-level control. 100 Hz control loop with 8-channel multiplexed ADC sampling (12-bit, 10:1 voltage divider scaling 10 kV → 1 V). PID voltage regulation per channel with serial command interface. Hardware PWM generation at 1–50 kHz for optocoupler driving.",
+            "Specified a compliant PCB to resolve the inherited 2-layer board's creepage violation (2–3 mm vs. 8–10 mm required for >5 kV). FR4-TG180 substrate (180°C glass transition, 40–50 kV/mm dielectric strength, CTI ≥600 V to resist surface tracking), 2 oz copper on HV layers, ENIG finish, dedicated HV/LV ground-plane isolation, and via stitching for EMI containment. A faster modular perfboard build path was run in parallel to validate the topology without fabrication delays.",
         },
         {
-          title: "Coordinated Fish Locomotion Control",
+          title: "Modular Two-Domain Architecture (LV Perfboard + Enclosed HV)",
           description:
-            "Phase-sequenced 8-channel actuation generating undulatory wave propagation mimicking natural fish body motion at 1–10 Hz. 45° phase offset between adjacent channels with independent frequency and amplitude control. Real-time parameter adjustment via Python GUI and serial interface. <10 ms timing skew target between channels for synchronized locomotion patterns. Supports multiple gait modes including undulatory body waves and independent fin control.",
+            "A ~12×15 cm low-voltage control perfboard ($80–120, parts already on hand) carries the microcontroller, a 12→5 V buck, eight TLP521 optoisolators, PWM timer outputs, and MAX11612/11617 ADC monitoring. A separate polycarbonate-enclosed high-voltage module houses the eight point-to-point Cockcroft-Walton channels, HC52 20 kV connectors on the rear for HASEL muscles, and a single isolated front connector for control signals. Separation lets each domain be tested and debugged independently.",
         },
         {
-          title: "Safety Systems & Encapsulation",
+          title: "Bare-Metal Control & Phase 1 Bench Validation (ESP32 + ADS1115)",
           description:
-            "Multi-layer protection architecture: hardware interlocks (HV enable key switch), firmware watchdog timer (1 s timeout triggering safe shutdown), and passive protection (snubber capacitors, Zener clipping diodes, 10 MΩ current-limiting series resistors). Sylgard 527 dielectric gel encapsulation with Sylgard 184 PDMS protective coating providing supplementary insulation. Emergency discharge circuit for capacitive energy storage. Overvoltage cutoff at 10.5 kV (5% above nominal). IP54 minimum enclosure rating.",
+            "Control moved from G8RTOS (99.5% idle for unneeded microsecond scheduling) to a timer-based bare-metal loop at 100–200 Hz. Phase 1 was brought up on an ESP32 (uPesy Wroom) + ADS1115 (16-bit, ±4.096 V, 128 SPS). The ADC voltmeter was calibrated by 5-point least-squares regression (1–5 V, R²≈1.000), correcting the divider ratio 4.1→4.776 and residual error to <0.5%. A closed-loop capacitor-voltage regulator uses proportional control (K_P=50) with a 0.05 V deadband on a 50 ms loop, driving a 1 kHz 8-bit LEDC PWM half-bridge — IRF4905 P-channel charge / IRL744N N-channel discharge — with 50 ms dead-time to block shoot-through.",
         },
       ],
       tools: [
-        "Altium Designer (6-layer PCB schematic, layout, and manufacturing documentation)",
-        "Raspberry Pi Pico / RP2040 with MicroPython firmware",
-        "Pico Electronics 28VV10 HV DC-DC converters",
-        "Oscilloscope and logic analyzer for validation",
-        "LTSpice for circuit simulation",
-        "IPC-2221B, NASA EEE-INST-002, IEC 61010-1/62368-1, MIL-STD-202 standards frameworks",
+        "Altium Designer (6-layer HV PCB schematic, layout, and fabrication-output study)",
+        "ESP32 (uPesy Wroom) + PlatformIO / Arduino C++ for Phase 1 firmware",
+        "ADS1115 16-bit I2C ADC for calibrated voltage sensing",
+        "TM4C123GH6PM + Code Composer Studio (inherited control platform)",
+        "TLP521 optoisolators, ZVS boost modules, HC52 20 kV HV connectors",
+        "LTSpice, oscilloscope, and DMM for circuit simulation and bench validation",
+        "IPC-2221B, IPC-2152, IEC 61010-1, NASA EEE-INST-002 standards frameworks",
       ],
       approach:
-        "Two-semester methodology: Fall 2025 comprehensive design review (inherited system deficiency analysis, standards framework establishment, architecture trade-off studies, component selection, BOM estimation) followed by Spring 2026 5-phase implementation: (1) single-channel LV prototype validation on perfboard with PWM/ADC/serial firmware, (2) HV prototype with Pico 28VV10 converter and custom optocoupler including PID closed-loop regulation, (3) 8-channel integration with coordinated actuation and fish locomotion patterns, (4) standards-compliant 6-layer PCB design in Altium with full DRC validation, (5) full system validation with HASEL actuators and soft robotic fish locomotion demonstration.",
+        "PDR-driven, two-semester methodology. Fall 2025: evaluate the inherited 4-channel board, establish the standards/compliance framework, and design the hybrid Cockcroft-Walton + ZVS boost topology with a cost model and component-derating philosophy. Spring 2026 Phase 1: bring up the low-voltage control on ESP32 + ADS1115 — calibrate the ADC voltmeter by least-squares regression, then implement and test a closed-loop PWM capacitor-voltage regulator with anti-shoot-through dead-time. Subsequent phases: high-voltage module bring-up (Cockcroft-Walton + ZVS to 8–10 kV), 8-channel integration in the polycarbonate enclosure, and full validation with HASEL actuators.",
     },
     challenges: [
       {
         challenge:
-          "Inherited 2-layer PCB violated IPC-2221B creepage requirements — only 2–3 mm spacing between HV conductors vs. 8–10 mm minimum required for >5 kV circuits, making standards compliance physically impossible on the existing architecture",
+          "Inherited 2-layer PCB violated IPC-2221B creepage requirements — only 2–3 mm spacing between HV conductors vs. the 8–10 mm minimum for >5 kV circuits — making standards compliance physically impossible on the existing architecture",
         solution:
-          "Designed 6-layer stackup with dedicated HV/LV ground plane isolation, 8–10 mm creepage distances, 10–12 mm air clearance, FR4-TG180 substrate (180°C glass transition), 2 oz copper for HV stress points, and via stitching for EMI containment — achieving compliance with IPC-2221B, NASA EEE-INST-002, and IEC 62368-1",
+          "Specified a 6-layer FR4-TG180 stackup with dedicated HV/LV ground-plane isolation, 8–10 mm creepage, 10–12 mm clearance, 2 oz copper at HV stress points, ENIG finish, and via stitching for EMI containment — and split the build into an isolated LV control module and an enclosed HV module so creepage spacing is achievable per channel",
       },
       {
         challenge:
-          "Inherited G8RTOS microcontroller architecture consumed 99.5% CPU overhead for microsecond-precision scheduling, while HASEL actuators only require millisecond-level control (1–10 Hz actuation frequency) — a fundamental mismatch between system complexity and application requirements",
+          "Commercial HV amplifier modules cost ~$550/channel — $4,400 for an 8-channel system — making the design prohibitively expensive to scale for a research lab",
         solution:
-          "Transitioned to bare-metal MicroPython on Raspberry Pi Pico (RP2040), providing native hardware PWM generation, 12-bit ADC for voltage feedback, and serial command interface with 100 Hz control loop — eliminating unnecessary RTOS overhead while maintaining >5× timing margin for all real-time tasks",
+          "Replaced the modules with discrete per-channel Cockcroft-Walton multipliers ($440–880 for all 8) fed by a shared-topology ZVS boost stage, landing total system cost at $650–1,250 with a $300/channel volume target — a 72–85% reduction that makes 8-channel research affordable",
       },
       {
         challenge:
-          "Commercial HV amplifier modules (5VV10P) cost $4,400+ per channel, making 8-channel scaling financially prohibitive for a research lab ($35,200+ for the complete system)",
+          "Inherited G8RTOS architecture consumed 99.5% CPU overhead for microsecond-precision scheduling, while HASEL actuators only need millisecond-level control (1–10 Hz) — a fundamental mismatch between system complexity and application requirements",
         solution:
-          "Selected Pico Electronics 28VV10 converters (~$45/unit) with custom optocoupler assemblies (OZ100SG + IR LED at ~$18/pair), achieving equivalent 10 kV output capability at $379 target BOM ($750 with 2× safety margin) — a 78–89% cost reduction enabling multi-channel research previously out of budget",
+          "Transitioned to a timer-based bare-metal loop at 100–200 Hz with hardware PWM per channel and a simple voltage-regulation state machine, eliminating RTOS context-switching overhead while keeping ample timing margin for all real-time tasks",
+      },
+      {
+        challenge:
+          "The Phase 1 ESP32 + ADS1115 voltmeter systematically underread by ~16.3% (1.00 V measured as 0.864 V) because the assumed resistor-divider ratio did not match the physical hardware",
+        solution:
+          "Captured 64 readings across 1–5 V setpoints and fit a 5-point least-squares regression (R²≈1.000), correcting DIVIDER_RATIO from 4.1 to 4.776 in firmware and dropping residual error below 0.5% across the full sub-6 V range",
       },
     ],
     outcomes: {
       results: [
-        "Completed comprehensive design review identifying critical deficiencies in inherited 4-channel prototype",
-        "Established multi-standard compliance framework (IPC-2221B, NASA EEE-INST-002, IEC 61010-1/62368-1, MIL-STD-202)",
-        "Selected and validated component architecture achieving 78–89% cost reduction vs. commercial solution",
-        "Designed 6-layer PCB stackup resolving all creepage/clearance violations for >5 kV operation",
-        "Developed 5-phase Spring 2026 implementation roadmap with defined milestones and success criteria",
-        "Created firmware architecture for 8-channel independent PID-controlled voltage regulation on RP2040",
+        "Authored the Fall 2025 Preliminary Design Review identifying critical deficiencies in the inherited 4-channel prototype",
+        "Designed a hybrid Cockcroft-Walton + ZVS boost HV architecture replacing $550/channel commercial amplifier modules",
+        "Established a multi-standard compliance framework (IPC-2221B, IPC-2152, IEC 61010-1, NASA EEE-INST-002)",
+        "Specified an IPC-2221B-compliant FR4-TG180 / ENIG 6-layer stackup resolving the inherited creepage violations",
+        "Built the Phase 1 low-voltage prototype on ESP32 + ADS1115 and calibrated the ADC voltmeter to <0.5% error (R²≈1.000)",
+        "Implemented a closed-loop capacitor-voltage regulator with a PWM half-bridge and anti-shoot-through dead-time",
       ],
       metrics: [
-        "78–89% cost reduction ($35,200 → $650–1,250 for 8 channels)",
-        "8 independent channels, 0–10 kV output per channel",
-        "6-layer IPC-2221B compliant PCB with 8–10 mm creepage",
-        "$379 target BOM ($750 with 2× safety margin)",
-        "100 Hz control loop with <10 ms inter-channel timing skew",
-        "<3% output voltage ripple target",
-        "<500 ms rise time, <200 ms settling time targets",
+        "8 independent channels, 8–10 kV per channel",
+        "Cost: $4,400 → $650–1,250 (72–85% cut); $300/channel target",
+        "ZVS boost: 8–32 V → 300 V ±10%, 85–92% efficiency, 50–100 mA/ch",
+        "Cockcroft-Walton: Vo = 2N·Vp (2-stage + 4-stage)",
+        "ADC calibration: R²≈1.000, residual error <0.5% (1–5 V)",
+        "Creepage: inherited 2–3 mm → 8–10 mm (IPC-2221B)",
+        "Control loop 100–200 Hz; <3% ripple, 1–2 ms response targets",
       ],
       futureWork:
-        "Production PCB fabrication and automated test fixtures (Summer 2026). Long-term: multi-robot swarm coordination with wireless communication, adaptive locomotion via closed-loop sensory feedback and ML-based gait optimization, scaling to 16–32 channel systems, and technology transfer pathway for commercial soft robotics applications.",
+        "High-voltage module bench bring-up (Cockcroft-Walton + ZVS to 8–10 kV with <3% ripple and >1 MΩ isolation), then 8-channel integration in the polycarbonate enclosure with HC52 connectors and coordinated fish-locomotion control. Longer term: a fabricated 6-layer PCB with automated test fixtures, and scaling toward 16–32 channel systems for multi-segment soft-robotic swimmers.",
       links: {
         github: "https://github.com/RubenGonzalezVera",
       },
     },
     visualPlaceholders: [
       {
-        title: "System Architecture Block Diagram",
+        title: "Cockcroft-Walton Voltage Multiplier (Topology)",
         description:
-          "8-channel topology from Raspberry Pi Pico controller through optocoupler pairs to Pico 28VV10 HV converters and HASEL actuator stacks, showing PWM control, ADC feedback, and serial interface paths",
+          "Half-wave Cockcroft-Walton multiplier — the building block used per channel to step the optocoupled PWM signal toward kilovolt levels. Output follows Vo = 2N·Vp, setting the stage counts for the 8 V and 8–10 kV targets.",
+        imagePath: "/projects/hasel-power-supply/figure1_cockcroft_walton_typical.png",
       },
       {
-        title: "6-Layer PCB Stackup Diagram",
+        title: "1st-Stage Multiplier (4 V → 8 V)",
         description:
-          "Cross-section showing layer assignments: signal/HV traces (L1/L6), LV ground plane (L2), isolated HV power rail (L3), HV ground plane (L4), signal return (L5), with creepage/clearance dimensions annotated",
+          "First-stage Cockcroft-Walton multiplier that lifts the ≈4 V optocoupled input to the 8 V needed at the boost-converter input — a 2-stage configuration per Vo = 2N·Vp.",
+        imagePath: "/projects/hasel-power-supply/figure2_1st_stage_multiplier.png",
       },
       {
-        title: "Inherited vs. Redesigned PCB Comparison",
+        title: "2nd-Stage Multiplier (300 V → 8–10 kV)",
         description:
-          "Side-by-side showing IPC-2221B violations in 2-layer design (2–3 mm spacing) vs. compliant 6-layer design (8–10 mm creepage, 10–12 mm clearance)",
+          "Four-stage second multiplier taking the 300 V boost-converter rail to the 8–10 kV HASEL actuation range. The 300 V intermediate reduces capacitor/diode stress ~4× versus multiplying directly from low voltage.",
+        imagePath: "/projects/hasel-power-supply/figure3_2nd_stage_multiplier.png",
       },
       {
-        title: "HV Test Validation Results",
+        title: "ZVS Boost Converter Module (8–32 V → 45–390 V)",
         description:
-          "Oscilloscope captures of voltage output stability, ripple characterization, step response, and PID-regulated transient recovery across voltage setpoints",
+          "Zero-voltage-switching boost stage providing the 300 V intermediate rail (±10%, 50–100 mA/ch, 100–200 kHz, 85–92% efficient) with ≥2 kV isolation between the low- and high-voltage domains.",
+        imagePath: "/projects/hasel-power-supply/figure4_zvs_boost_converter.png",
+      },
+      {
+        title: "Phase 1 ADC Calibration Curve (ESP32 + ADS1115)",
+        description:
+          "5-point least-squares fit of true input vs. averaged ADC count (1–5 V, R²≈1.000) used to correct DIVIDER_RATIO 4.1→4.776, bringing the voltmeter from ~16.3% underread to <0.5% residual error.",
       },
       {
         title: "Soft Robotic Fish Locomotion Demo",
         description:
-          "Coordinated undulatory wave propagation across 8 HASEL actuator channels demonstrating phase-sequenced control at 1–10 Hz actuation frequencies",
+          "Coordinated undulatory wave propagation across 8 HASEL channels demonstrating phase-sequenced control at 1–10 Hz actuation frequencies (target).",
       },
     ],
   },
