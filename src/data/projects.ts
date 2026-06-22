@@ -113,6 +113,7 @@ export const projects: Project[] = [
         "TLP521 optoisolators, ZVS boost modules, HC52 20 kV HV connectors",
         "LTSpice, oscilloscope, and DMM for circuit simulation and bench validation",
         "IPC-2221B, IPC-2152, IEC 61010-1, NASA EEE-INST-002 standards frameworks",
+        "Preliminary cross-validation in DesignSpark, LibrePCB, Qucs-S, and KiCAD before Altium finalization",
       ],
       approach:
         "PDR-driven, two-semester methodology. Fall 2025: evaluate the inherited 4-channel board, establish the standards/compliance framework, and design the hybrid Cockcroft-Walton + ZVS boost topology with a cost model and component-derating philosophy. Spring 2026 Phase 1: bring up the low-voltage control on ESP32 + ADS1115 — calibrate the ADC voltmeter by least-squares regression, then implement and test a closed-loop PWM capacitor-voltage regulator with anti-shoot-through dead-time. Subsequent phases: high-voltage module bring-up (Cockcroft-Walton + ZVS to 8–10 kV), 8-channel integration in the polycarbonate enclosure, and full validation with HASEL actuators.",
@@ -265,6 +266,7 @@ export const projects: Project[] = [
         "Saleae Logic Analyzer for protocol decoding",
         "KiCAD and Altium Designer for PCB design",
         "Git for version control and documentation",
+        "Preliminary cross-validation in DesignSpark, LibrePCB, and Qucs-S before Altium finalization",
       ],
       approach:
         "Each protocol was implemented in phases: (1) study specification documents, (2) implement core functionality in C with direct register access, (3) verify timing with oscilloscope, (4) test with real peripherals, (5) design PCB test fixtures, (6) document and publish open-source.",
@@ -390,6 +392,7 @@ export const projects: Project[] = [
         "Oscilloscope and spectrum analyzer for EMI testing",
         "3D printer for enclosure prototyping",
         "Nordic SDK for BLE firmware development",
+        "Preliminary cross-validation in DesignSpark, LibrePCB, Qucs-S, and KiCAD before Altium finalization",
       ],
       approach:
         "Iterative design process: (1) circuit simulation in LTSpice, (2) breadboard validation of each subsystem, (3) first PCB revision with test points, (4) EMI characterization and shielding improvements, (5) final revision with optimized layout and enclosure integration.",
@@ -517,6 +520,7 @@ export const projects: Project[] = [
         "Oscilloscope with current probes for switching analysis",
         "STM32CubeIDE for firmware development",
         "Jira for Agile sprint planning and task tracking",
+        "Preliminary cross-validation in DesignSpark, LibrePCB, Qucs-S, and KiCAD before Altium finalization",
       ],
       approach:
         "Agile development with 2-week sprints: Each prototype iteration included design review, simulation, PCB fabrication, bring-up testing, and retrospective. Team divided responsibilities: power stage design, control firmware, testing/validation, and cost analysis. Regular sprint reviews ensured alignment on efficiency and cost reduction goals.",
@@ -598,8 +602,8 @@ export const projects: Project[] = [
     slug: "buck-converter",
     title: "Feedback-Controlled Buck Converter",
     description:
-      "75W buck converter with PID feedback control achieving 12V±1% output regulation, featuring small-signal modeling, frequency-domain compensation design, and closed-loop verification.",
-    tags: ["Power Electronics", "Control Systems", "Analog Design", "MATLAB", "LTSpice", "PID Control", "Op-Amp Circuits"],
+      "75W buck converter with PID feedback control achieving 12V±1% output regulation — full small-signal modeling, frequency-domain compensation design, closed-loop verification, and a complete Altium PCB layout with sourced components.",
+    tags: ["Power Electronics", "Control Systems", "Analog Design", "MATLAB", "LTSpice", "PID Control", "Op-Amp Circuits", "Altium", "PCB Design"],
     hours: 100,
     type: "Open-Source",
     status: "Complete",
@@ -650,20 +654,22 @@ export const projects: Project[] = [
             "Sawtooth PWM modulator with Vm=1V amplitude operating at fs=150 kHz switching frequency. Modulator gain Fm=1/Vm=1 V⁻¹. Compares compensator output against sawtooth ramp to generate duty cycle command for MOSFET gate drivers. The switching frequency was selected to balance efficiency (minimize switching losses) with component size (enable smaller magnetics) while staying below 1/10 of the ESR zero frequency to avoid right-half-plane zero issues.",
         },
         {
-          title: "Simulation & Verification",
+          title: "Simulation, PCB Layout & Verification",
           description:
-            "Complete closed-loop system simulated in LTSpice to verify transient response and regulation performance. Simulation confirmed 12V output with <1% steady-state error and stable response to input voltage steps (35V nominal) and load current steps (3A to 4A). MATLAB Bode plot analysis verified compensated loop gain crossover at 20 kHz with 45° phase margin, validating analytical design against simulation results. Note: Physical PCB has not been fabricated—this project demonstrates design and analysis methodology.",
+            "Complete closed-loop system simulated in LTSpice to verify transient response and regulation performance. Simulation confirmed 12V output with <1% steady-state error and stable response to input voltage steps (35V nominal) and load current steps (3A to 4A). MATLAB Bode plot analysis verified compensated loop gain crossover at 20 kHz with 45° phase margin, validating analytical design against simulation results. The design was then carried through to a complete Altium PCB — schematic capture plus board layout with sourced, real-part-number components (e.g., a Nichicon 47 µF output capacitor and SMD compensator network) — though the board has not yet been fabricated or assembled.",
         },
       ],
       tools: [
         "MATLAB (Transfer function analysis, Bode plots, pole-zero placement)",
         "LTSpice (Circuit simulation, transient analysis, closed-loop verification)",
+        "Altium Designer (schematic capture and PCB board layout with sourced components)",
         "Op-Amp circuits (TL072 or equivalent for error amplifier and compensator)",
         "Oscilloscope (For planned waveform measurements)",
         "Hand calculations (Steady-state analysis, component selection)",
+        "Preliminary cross-validation in DesignSpark, LibrePCB, Qucs-S, and KiCAD before Altium finalization",
       ],
       approach:
-        "Followed systematic 8-step design methodology starting with steady-state analysis to determine duty cycle and verify CCM operation. Derived complete small-signal model including Gvd, Gvg, and Zo transfer functions with quality factor and pole/zero frequencies. Generated Bode plots in MATLAB to visualize uncompensated loop gain and identify compensation requirements. Designed Type III PID compensator using pole-zero placement technique to achieve maximum crossover frequency while meeting phase margin specification. Implemented compensator using op-amp circuit with calculated component values (R=10kΩ, R1=560Ω, C1=6.86nF, C2=22pF, C3=22pF). Integrated voltage sensing, error amplifier, compensator, and modulator into complete feedback control system. Verified design through closed-loop LTSpice simulation showing regulation performance under input and load transients.",
+        "Followed systematic 8-step design methodology starting with steady-state analysis to determine duty cycle and verify CCM operation. Derived complete small-signal model including Gvd, Gvg, and Zo transfer functions with quality factor and pole/zero frequencies. Generated Bode plots in MATLAB to visualize uncompensated loop gain and identify compensation requirements. Designed Type III PID compensator using pole-zero placement technique to achieve maximum crossover frequency while meeting phase margin specification. Implemented compensator using op-amp circuit with calculated component values (R=10kΩ, R1=560Ω, C1=6.86nF, C2=22pF, C3=22pF). Integrated voltage sensing, error amplifier, compensator, and modulator into complete feedback control system. Verified design through closed-loop LTSpice simulation showing regulation performance under input and load transients, then captured the schematic and laid out the board in Altium. As with every board in this portfolio, the Altium design was preliminarily checked in free EDA tools — DesignSpark, LibrePCB, Qucs-S, and KiCAD — before finalizing in Altium.",
     },
     challenges: [
       {
@@ -693,6 +699,7 @@ export const projects: Project[] = [
         "Maximized crossover frequency at 20 kHz (1/7.5 of switching frequency) for fast transient response",
         "Completed comprehensive MATLAB transfer function analysis with Bode plots validating design",
         "Verified closed-loop performance in LTSpice simulation showing stable regulation under transients",
+        "Carried the design through to a complete Altium PCB (schematic + board layout) with sourced, real-part-number components",
         "Generated complete design documentation with schematics, calculations, and analysis results",
       ],
       metrics: [
@@ -706,7 +713,7 @@ export const projects: Project[] = [
         "Duty cycle: 34.3% (D = 0.343)",
       ],
       futureWork:
-        "The control theory and power electronics principles from this academic project were directly applied to design the 60V/30A boost converter in the Custom Solar Power Inverter, scaling up to real-world solar applications. Future enhancements could include PCB fabrication and hardware validation, digital compensator implementation using microcontroller, adaptive compensation for variable load conditions, and integration with current-mode control for improved performance.",
+        "The control theory and power electronics principles from this academic project were directly applied to design the 60V/30A boost converter in the Custom Solar Power Inverter, scaling up to real-world solar applications. A complete PCB layout has already been produced in Altium with sourced components; fabrication, assembly, and hardware validation are the immediate next step, alongside digital compensator implementation using a microcontroller, adaptive compensation for variable load conditions, and current-mode control for improved performance.",
       links: {
         github: "https://github.com/RubenGonzalezVera",
       },
@@ -751,7 +758,7 @@ export const projects: Project[] = [
       {
         title: "Closed-Loop Simulation Results",
         description:
-          "LTSpice transient analysis waveforms showing output voltage regulation at 12V with minimal ripple, response to input voltage step (35V→48V), and load current step (4A→3A) demonstrating stable transient recovery. Note: Simulation-based design; PCB not yet fabricated.",
+          "LTSpice transient analysis waveforms showing output voltage regulation at 12V with minimal ripple, response to input voltage step (35V→48V), and load current step (4A→3A) demonstrating stable transient recovery. Note: design carried to a complete Altium PCB layout with sourced components; board not yet fabricated.",
         imagePath: "/projects/buck-converter/submission_page16_img02.jpeg",
       },
     ],

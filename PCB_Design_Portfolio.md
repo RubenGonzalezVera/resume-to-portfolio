@@ -3,7 +3,9 @@
 Hardware portfolio focused on **printed circuit board design**: multilayer
 stackups, high-voltage creepage/clearance, EMI shielding, power-stage layout,
 and standards compliance. Tools: **Altium Designer** (primary), KiCAD, LTSpice,
-PSIM, MATLAB.
+PSIM, MATLAB. Every Altium board is preliminarily cross-validated in free EDA
+tools — **DesignSpark, LibrePCB, Qucs-S, and KiCAD** — before being finalized
+in Altium.
 
 Contact: rubengonvera@gmail.com · GitHub: https://github.com/RubenGonzalezVera
 
@@ -151,18 +153,23 @@ in bare-metal C, validated on **open-source PCB test fixtures**.
 
 ---
 
-## Design Foundation (No PCB Fabricated)
-
-### Feedback-Controlled Buck Converter
-*Open-Source · Complete · ~100 hrs · MATLAB / LTSpice*
+## 5. Feedback-Controlled Buck Converter
+*Open-Source · Complete · ~100 hrs · Altium · MATLAB / LTSpice*
 
 75W buck converter with Type III PID compensator — **45° phase margin,
 16.6 dB gain margin**, 12V ±1% regulation. Complete small-signal modeling
-(Gvd, Gvg, Zo), Bode analysis, and closed-loop LTSpice verification.
+(Gvd, Gvg, Zo), Bode analysis, and closed-loop LTSpice verification (EEL4242C,
+Dec 2025).
 
-> **Note:** Design and analysis only — **no physical PCB was fabricated.**
-> Included here because the power-electronics and control methodology directly
-> fed the Solar Inverter boost-converter PCB work above.
+### PCB Design Contribution
+- Carried the analysis through to a **complete Altium PCB**: schematic capture
+  + board layout with **sourced, real-part-number components** (e.g. Nichicon
+  47 µF output cap, SMD compensator network).
+- Cross-validated in DesignSpark, LibrePCB, Qucs-S, and KiCAD before Altium.
+
+> **Note:** Board layout complete — **not yet fabricated or assembled.** The
+> control/power-electronics methodology also fed the Solar Inverter boost-
+> converter PCB work above.
 
 ---
 
@@ -174,4 +181,4 @@ in bare-metal C, validated on **open-source PCB test fixtures**.
 | Solar Inverter | Multilayer, high-current, 4 oz Cu | Altium | Complete |
 | Digital Multimeter | 4-layer, EMI-shielded | Altium | Complete |
 | Comm. Protocols | Test fixtures (×4) | KiCAD/Altium | Active |
-| Buck Converter | *Design only — no fab* | LTSpice/MATLAB | Complete |
+| Buck Converter | Layout complete — *not fabricated* | Altium / LTSpice / MATLAB | Complete |
