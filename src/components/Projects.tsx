@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Clock, Github, ExternalLink, ArrowRight, Image as ImageIcon } from "lucide-react";
+import { Clock, Github, ExternalLink, ArrowRight, Image as ImageIcon, Box } from "lucide-react";
 import { Link } from "react-router-dom";
 import { projects } from "@/data/projects";
 
@@ -31,6 +31,18 @@ const Projects = () => {
             Hardware and software projects showcasing embedded systems, power electronics,
             and protocol implementation.
           </p>
+
+          {/* 3D Warehouse demo CTA */}
+          <Link
+            to="/demo"
+            className="group mt-8 inline-flex items-center gap-3 px-5 py-3 rounded-lg border border-primary/40 bg-primary/5 hover:bg-primary hover:border-primary transition-all duration-300"
+          >
+            <Box className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
+            <span className="font-mono text-sm uppercase tracking-wider text-foreground group-hover:text-primary-foreground transition-colors">
+              Enter the 3D Warehouse
+            </span>
+            <ArrowRight className="w-4 h-4 text-primary group-hover:text-primary-foreground group-hover:translate-x-1 transition-all" />
+          </Link>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
